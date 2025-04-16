@@ -1,0 +1,2235 @@
+- id: '1696001085147'
+  alias: Uscita da Casa
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.attivatore_allarmi
+    from:
+    to:
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.1000d5ca4f_2
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.1000d5ca4f_1
+  - service: notify.persistent_notification
+    data:
+      message: Ho attivato tutti gli allarmi
+  mode: restart
+- id: '1696070156706'
+  alias: Apri/Chiudi Sezionale
+  description: ''
+  triggers:
+  - entity_id:
+    - input_boolean.sezionale
+    trigger: state
+  - trigger: tag
+    tag_id: 434492f5-60ae-4746-ae51-bcb5c2a78c2b
+  - trigger: tag
+    tag_id: c3eee273-5b2d-49c2-b4e3-a84e994c3d69
+  conditions: []
+  actions:
+  - data: {}
+    target:
+      entity_id: switch.10012e9bef_2
+    action: switch.turn_on
+  mode: restart
+- id: '1697562346854'
+  alias: Apri/Chiudi Cancello
+  description: ''
+  triggers:
+  - entity_id:
+    - input_boolean.attivato_cancello
+    from:
+    to:
+    trigger: state
+  - trigger: tag
+    tag_id: b07f7810-66dc-4590-9680-595b04c442e9
+  - trigger: tag
+    tag_id: 4e0dd978-cbad-4c3c-92ca-d4d6ef4f07ac
+  conditions: []
+  actions:
+  - data: {}
+    target:
+      entity_id: switch.10012e9bef_1
+    action: switch.turn_on
+  mode: restart
+- id: '1697614247877'
+  alias: Acquisisci dati inveter ogni 30 minuti
+  description: Acquisisce ogni 30 Min. i dati dall'inverter
+  trigger:
+  - platform: time_pattern
+    hours: '*'
+    minutes: '01'
+  - platform: time_pattern
+    hours: '*'
+    minutes: '31'
+  condition: []
+  action:
+  - service: homeassistant.update_entity
+    target:
+      entity_id:
+      - sensor.total_pv_generation
+      - sensor.today_s_pv_generation
+      - sensor.today_s_load
+      - sensor.total_load
+      - sensor.total_power
+    data: {}
+- id: '1698339729659'
+  alias: Acquisisce ogni minuto il dato dall'inverter del consumo di casa
+  description: Acquisisce ogni ora i dati dall'inverter
+  trigger:
+  - platform: time_pattern
+    hours: '*'
+    minutes: '*'
+  condition: []
+  action:
+  - service: homeassistant.update_entity
+    data: {}
+    target:
+      entity_id:
+      - sensor.house_consumption
+      - sensor.pv_power
+      - sensor.inverter_temperature
+      - sensor.on_grid_export_power
+  mode: restart
+- id: '1698397008604'
+  alias: natural_events_blitzortung_lightning_notifications
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.blitzortung_lightning_counter
+  condition:
+  - '{{ (as_timestamp(now()) - as_timestamp(this.attributes.last_triggered) ) > 60
+    }}'
+  - condition: numeric_state
+    entity_id: sensor.blitzortung_lightning_counter
+    above: 0
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: Un fulmine è stato rilevato entro  {{     states('sensor.blitzortung_lightning_distance')
+        | default }} km da casa.
+  mode: restart
+- id: '1698397163204'
+  alias: natural_events_fulmini
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.blitzortung_lightning_counter
+  condition:
+  - '{{ (as_timestamp(now()) - as_timestamp(this.attributes.last_triggered) ) > 60
+    }}'
+  - condition: numeric_state
+    entity_id: sensor.blitzortung_lightning_counter
+    above: 0
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: Un fulmine è stato rilevato entro  {{ states('sensor.blitzortung_lightning_distance')
+        | default }} km da casa.
+  mode: restart
+- id: '1701763831054'
+  alias: ext_int_notifica_umidita_camere
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.umidita_assoluta_camere.state|float) > (states.sensor.umidita_assoluta_esterno.state|float)
+      }}'
+    for:
+      minutes: 30
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: "Arieggiamo le Camere da Letto. \U0001F4A8 L' Umidità esterna è inferiore
+        a quella interna aprire le finestre delle camere da letto. \U0001F4A8"
+      title: "\U0001F4A8\U0001F4A8 Aria fresca \U0001F4A8\U0001F4A8"
+  mode: restart
+  initial_state: true
+- id: '1701764324709'
+  alias: ext_int_notifica_umidita_salone
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.umidita_assoluta_salone.state|float) > (states.sensor.umidita_assoluta_esterno.state|float)
+      }}'
+    for:
+      minutes: 30
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: "Arieggiamo il Salone.\U0001F4A8 L' Umidità esterna è inferiore a quella
+        interna aprire le finestre del salone. \U0001F4A8"
+      title: "\U0001F4A8\U0001F4A8 Aria fresca \U0001F4A8\U0001F4A8"
+  mode: restart
+  initial_state: true
+- id: '1701764386188'
+  alias: ext_int_notifica_umidita_studio
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.umidita_assoluta_studio.state|float) > (states.sensor.umidita_assoluta_esterno.state|float)
+      }}'
+    for:
+      minutes: 30
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: "Arieggiamo lo Studio. \U0001F4A8 L' Umidità esterna è inferiore a
+        quella interna aprire le finestre dello studio. \U0001F4A8"
+      title: "\U0001F4A8\U0001F4A8 Aria fresca \U0001F4A8\U0001F4A8"
+  mode: restart
+  initial_state: true
+- id: '1702540007183'
+  alias: Energia informazioni giornaliere
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:59:59'
+  condition: []
+  action:
+  - data:
+      message: "L''autosufficienza energetica di oggi è stata pari al {{states.sensor.autosufficienza_energetica.state
+        }} %\nIl rapporto di autoconsumo di oggi è del {{states.sensor.autoconsumo_giornaliero.state
+        }} %\nIl rapporto acquistato/prodotto è pari al {{ (((states.sensor.energy_buy_daily.state
+        |float(default=0)) * 100 / (states.sensor.pv_power_daily.state |float (default=0)))
+        | round(0, default=0)) }} %   \n\n Sono stati:\n\n - Prodotti:    {{ states.sensor.today_s_pv_generation.state
+        }} kw/h:\n                F1: {{ states.sensor.pv_power_daily_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.pv_power_daily_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.pv_power_daily_fasce_f3.state
+        }} kw/h. \n\n - Consumati:   {{ states.sensor.house_consumption_kw_daily.state
+        }} kw/h\n                F1: {{ states.sensor.house_consumption_fasce_giorno_kw_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.house_consumption_fasce_giorno_kw_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.house_consumption_fasce_giorno_kw_f3.state
+        }} kw/h. \n \n - Acquistati:  {{ states.sensor.energy_buy_daily.state }} kw/h:
+        \n                F1: {{ states.sensor.energy_buy_daily_fasce_f1.state }}
+        kw/h   \n                F2: {{ states.sensor.energy_buy_daily_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.energy_buy_daily_fasce_f3.state
+        }} kw/h. \n\n - Venduti:     {{ states.sensor.energy_sell_daily.state }} kw/h:
+        \n                F1: {{ states.sensor.energy_sell_daily_fasce_f1.state }}
+        kw/h   \n                F2: {{ states.sensor.energy_sell_daily_fasce_f2.state
+        }} kw/h  \n                F3: {{ states.sensor.energy_sell_daily_fasce_f3.state
+        }} kw/h.     \n\n Nei giorni a seguire è prevista una produzione di:\n\n -
+        domani:      {{ states.sensor.previsione_kw_oggi_1.state|round(default=2)
+        }} kw/h\n - dopodomani:  {{ states.sensor.previsione_kw_oggi_2.state|round(default=2)
+        }} kw/h\n - oggi +3:     {{ states.sensor.previsione_kw_oggi_3.state|round(default=2)
+        }} kw/h\n - oggi +4:     {{ states.sensor.previsione_kw_oggi_4.state|round(default=2)
+        }} kw/h"
+      title: ⚡☀️ Autosufficienza Energetica Resoconto Giornaliero ☀️⚡
+    action: notify.persistent_notification
+  - data:
+      message: "L''autosufficienza energetica di oggi è stata pari al {{states.sensor.autosufficienza_energetica.state
+        }} %\nIl rapporto di autoconsumo di oggi è del {{states.sensor.autoconsumo_giornaliero.state
+        }} %\nIl rapporto acquistato/prodotto è pari al {{ (((states.sensor.energy_buy_daily.state
+        |float(default=0)) * 100 / (states.sensor.pv_power_daily.state |float (default=0)))
+        | round(0, default=0)) }} %   \n\n Sono stati:\n\n - Prodotti:    {{ states.sensor.today_s_pv_generation.state
+        }} kw/h:\n                F1: {{ states.sensor.pv_power_daily_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.pv_power_daily_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.pv_power_daily_fasce_f3.state
+        }} kw/h. \n\n - Consumati:   {{ states.sensor.today_s_load.state }} kw/h\n
+        \               F1: {{ states.sensor.house_consumption_fasce_giorno_kw_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.house_consumption_fasce_giorno_kw_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.house_consumption_fasce_giorno_kw_f3.state
+        }} kw/h.    \n\n - Acquistati:  {{ states.sensor.energy_buy_daily.state }}
+        kw/h: \n                F1: {{ states.sensor.energy_buy_daily_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_buy_daily_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.energy_buy_daily_fasce_f3.state
+        }} kw/h. \n\n - Venduti:     {{ states.sensor.energy_sell_daily.state }} kw/h:
+        \n                F1: {{ states.sensor.energy_sell_daily_fasce_f1.state }}
+        kw/h   \n                F2: {{ states.sensor.energy_sell_daily_fasce_f2.state
+        }} kw/h  \n                F3: {{ states.sensor.energy_sell_daily_fasce_f3.state
+        }} kw/h.     \n\n Nei giorni a seguire è prevista una produzione di:\n\n -
+        domani:      {{ states.sensor.previsione_kw_oggi_1.state|round(default=2)
+        }} kw/h\n - dopodomani:  {{ states.sensor.previsione_kw_oggi_2.state|round(default=2)
+        }} kw/h\n - oggi +3:     {{ states.sensor.previsione_kw_oggi_3.state|round(default=2)
+        }} kw/h\n - oggi +4:     {{ states.sensor.previsione_kw_oggi_4.state|round(default=2)
+        }} kw/h"
+      title: ⚡☀️ Autosufficienza Energetica Resoconto Giornaliero ☀️⚡
+    action: notify.ippolito_telegram
+  mode: restart
+- id: '1702741951459'
+  alias: ext_int_notifica_umidita_garage
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.umidita_assoluta_garage.state|float) > (states.sensor.umidita_assoluta_esterno.state|float)
+      }}'
+    for:
+      minutes: 30
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: "\U0001F4A8 Arieggiamo il garage \U0001F4A8"
+      title: "\U0001F4A8\U0001F4A8 Aria fresca \U0001F4A8\U0001F4A8"
+  mode: restart
+  initial_state: true
+- id: '1704712301969'
+  alias: Inverter - temperatura fuori range
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.inverter_temperature
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    above: 45
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: "⚠️\U0001F321️ Attenzione! Temperatura Inveter fuori range.\U0001F321️⚠️"
+  - delay: 10
+  mode: restart
+- id: '1705268246382'
+  alias: Centro Notifiche - Configurazione Avvio
+  description: ''
+  use_blueprint:
+    path: caiosweet/notifier_startup_configuration.yaml
+    input:
+      personal_assistant: "\U0001F3E1 Casa Salati \U0001F3E1"
+      person:
+      - person.ippolitosalati
+      - person.mariarosariarizzo
+      alexa_media_player:
+      - media_player.this_device
+      alexa_group_player:
+      - media_player.alexa
+      google_media_player:
+      - media_player.cucina
+      google_group_player:
+      - group.multiroom_alexa_google_text
+      notify_service_list:
+      - notify.persistent_notification
+      - notify.notify
+      - notify.persistent_notification
+      - notify.persistent_notification, notify.ippolito_telegram
+      - notify.famiglia_telegram
+      - notify.mobile_app_pocof5pro
+      - notify.famiglia_telegram
+      - notify.mobile_app_pocox6
+      ha_event_notify:
+      - notify.mobile_app_pocof5pro
+      sip_server_name: voip.eutelia.it
+      download: true
+      beta_version: true
+- id: '1705586356108'
+  alias: Tariffe energetiche attribuzione
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.holiday
+    from: 'off'
+    to: 'on'
+    variables:
+      tariffs: F3
+  - platform: time
+    id: '7'
+    at: 07:00:00
+    variables:
+      tariffs: F2
+  - platform: time
+    id: '8'
+    at: 08:00:00
+    variables:
+      tariffs: F1
+  - platform: time
+    id: '19'
+    at: '19:00:00'
+    variables:
+      tariffs: F2
+  - platform: time
+    id: '23'
+    at: '23:00:00'
+    variables:
+      tariffs: F3
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: holiday
+      sequence:
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_sett_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.montly_energy
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_anno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_mese_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_giorno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_montly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+    - conditions:
+      - condition: trigger
+        id: '7'
+      sequence:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.holiday
+          state: 'off'
+        - condition: time
+          weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+          - sat
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_sett_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.montly_energy
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_anno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_mese_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_giorno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_montly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+    - conditions:
+      - condition: trigger
+        id: '8'
+      sequence:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.holiday
+          state: 'off'
+        - condition: time
+          weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_sett_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.montly_energy
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_anno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_mese_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_giorno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_montly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+    - conditions:
+      - condition: trigger
+        id: '19'
+      sequence:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.holiday
+          state: 'off'
+        - condition: time
+          weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_sett_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.montly_energy
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_anno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_mese_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_giorno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_montly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+    - conditions:
+      - condition: trigger
+        id: '23'
+      sequence:
+      - condition: state
+        entity_id: input_boolean.holiday
+        state: 'off'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_sett_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.pv_power_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.montly_energy
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_essential_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_anno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_mese_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.house_consumption_fasce_giorno_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_buy_montly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_daily_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_weekly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_monthly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_sell_yearly_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_camere_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_salone_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_giorno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_mese_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.shelly_clima_studio_switch_0_energy_anno_fasce
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_sostentamento_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_oggi_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_mese_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+      - service: select.select_option
+        target:
+          entity_id: select.energy_anno_fasce_somma_sensori_aux_clima_kw
+        data:
+          option: '{{ tariffs }}'
+  mode: restart
+  initial_state: true
+- id: '1706211875620'
+  alias: Energia Informazioni settimanale
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:59:59'
+  condition:
+  - condition: time
+    weekday:
+    - sun
+  action:
+  - data:
+      message: "\nL''autosufficienza energetica della settimana è pari al {{ (((states.sensor.pv_power_weekly.state
+        |float(default=0)) * 100 / (states.sensor.house_consumption_sett_kw.state
+        |float (default=0))) | round (0, default=0)) }} %   \nIl rapporto di autoconsumo
+        di questa settimana è del {{states.sensor.autoconsumo_settimanale.state }}
+        %\nIl rapporto acquistato/prodotto è pari al {{ (((states.sensor.energy_buy_weekly.state
+        |float(default=0)) * 100 / (states.sensor.pv_power_weekly.state |float (default=0)))
+        | round(0, default=0)) }} %   \n\n Sono stati:\n\n - Prodotti:    {{ states.sensor.pv_power_weekly.state
+        }} kw/h:\n                F1: {{ states.sensor.pv_power_weekly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.pv_power_weekly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.pv_power_weekly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.pv_power_weekly.state
+        |float(default=2) / 7)| round (2)  }} kw/h\n   \n - Consumati:   {{ states.sensor.house_consumption_sett_kw.state
+        }} kw/h\n                F1: {{ states.sensor.house_consumption_fasce_sett_kw_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.house_consumption_fasce_sett_kw_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.house_consumption_fasce_sett_kw_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.house_consumption_sett_kw.state
+        |float(default=2) / 7)| round (2)  }} kw/h\n  \n - Acquistati:  {{ states.sensor.energy_buy_weekly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_buy_weekly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_buy_weekly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.energy_buy_weekly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.energy_buy_weekly.state
+        |float(default=2) / 7)| round (2)  }} kw/h\n\n - Venduti:     {{ states.sensor.energy_sell_weekly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_sell_weekly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_sell_weekly_fasce_f2.state
+        }} kw/h  \n                F3: {{ states.sensor.energy_sell_weekly_fasce_f3.state
+        }} kw/h.     \n   Media giornaliera:  {{ (states.sensor.energy_sell_weekly.state
+        |float(default=2) / 7)| round (2)  }} kw/h"
+      title: ⚡☀️ Autosufficienza Energetica      Resoconto Settimanale ☀️⚡
+    action: notify.persistent_notification
+  - data:
+      message: "\nL''autosufficienza energetica della settimana è pari al {{ (((states.sensor.pv_power_weekly.state
+        |float(default=0)) * 100 / (states.sensor.house_consumption_sett_kw.state
+        |float (default=0))) | round (0, default=0)) }} %   \nIl rapporto di autoconsumo
+        di questa settimana è del {{states.sensor.autoconsumo_settimanale.state }}
+        %\nIl rapporto acquistato/prodotto è pari al {{ (((states.sensor.energy_buy_weekly.state
+        |float(default=0)) * 100 / (states.sensor.pv_power_weekly.state |float (default=0)))
+        | round(0, default=0)) }} %   \n\n Sono stati:\n\n - Prodotti:    {{ states.sensor.pv_power_weekly.state
+        }} kw/h:\n                F1: {{ states.sensor.pv_power_weekly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.pv_power_weekly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.pv_power_weekly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.pv_power_weekly.state
+        |float(default=2) / 7)| round (2)  }} kw/h\n   \n - Consumati:   {{ states.sensor.house_consumption_sett_kw.state
+        }} kw/h\n                F1: {{ states.sensor.house_consumption_fasce_sett_kw_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.house_consumption_fasce_sett_kw_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.house_consumption_fasce_sett_kw_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.house_consumption_sett_kw.state
+        |float(default=2) / 7)| round (2)  }} kw/h      \n\n - Acquistati:  {{ states.sensor.energy_buy_weekly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_buy_weekly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_buy_weekly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.energy_buy_weekly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.energy_buy_weekly.state
+        |float(default=2) / 7)| round (2)  }} kw/h\n\n - Venduti:     {{ states.sensor.energy_sell_weekly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_sell_weekly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_sell_weekly_fasce_f2.state
+        }} kw/h  \n                F3: {{ states.sensor.energy_sell_weekly_fasce_f3.state
+        }} kw/h.     \n   Media giornaliera:  {{ (states.sensor.energy_sell_weekly.state
+        |float(default=2) / 7)| round (2)  }} kw/h"
+      title: ⚡☀️ Autosufficienza Energetica      Resoconto Settimanale ☀️⚡
+    action: notify.ippolito_telegram
+  mode: restart
+- id: '1706212828116'
+  alias: Energia informazioni mensile
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:59:59'
+  condition:
+  - condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ (now() + timedelta(days=1)).day == 1 }}'
+  action:
+  - data:
+      message: "L''autosufficienza energetica del mese è pari al {{ (((states.sensor.pv_power_monthly.state
+        |float(default=0)) * 100 / (states.sensor.house_consumption_kw_montly.state
+        |float (default=0))) | round (0, default=0)) }} %   \nIl rapporto di autoconsumo
+        di questo mese è del {{states.sensor.autoconsumo_mensile.state }} %\nIl rapporto
+        acquistato/prodotto è pari al {{ (((states.sensor.energy_buy_montly.state
+        |float(default=0)) * 100 / (states.sensor.pv_power_monthly.state |float (default=0)))
+        | round(0, default=0)) }} %   \n\n Sono stati:\n\n - Prodotti:    {{ states.sensor.pv_power_monthly.state
+        }} kw/h:\n                F1: {{ states.sensor.pv_power_monthly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.pv_power_monthly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.pv_power_monthly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.pv_power_monthly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.pv_power_monthly.state
+        |float(default=2) / 4)| round (2)  }} kw/h\n\n - Consumati:   {{ states.sensor.house_consumption_kw_montly.state
+        }} kw/h\n                F1: {{ states.sensor.house_consumption_fasce_mese_kw_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.house_consumption_fasce_mese_kw_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.house_consumption_fasce_mese_kw_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.house_consumption_kw_montly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.house_consumption_kw_montly.state
+        |float(default=2) / 4)| round (2)  }} kw/h\n\n - Acquistati:  {{ states.sensor.energy_buy_montly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_buy_montly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_buy_montly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.energy_buy_montly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.energy_buy_montly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.energy_buy_montly.state
+        |float(default=2) / 4)| round (2)  }} kw/h\n\n - Venduti:     {{ states.sensor.energy_sell_montly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_sell_monthly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_sell_monthly_fasce_f2.state
+        }} kw/h  \n                F3: {{ states.sensor.energy_sell_monthly_fasce_f3.state
+        }} kw/h.   \n   Media giornaliera:  {{ (states.sensor.energy_sell_montly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.energy_sell_montly.state
+        |float(default=2) / 4)| round (2)  }} kw/h"
+      title: ⚡☀️ Autosufficienza Energetica Resoconto Mensile ☀️⚡
+    action: notify.persistent_notification
+  - data:
+      message: "L''autosufficienza energetica del mese è pari al {{ (((states.sensor.pv_power_monthly.state
+        |float(default=0)) * 100 / (states.sensor.house_consumption_kw_montly.state
+        |float (default=0))) | round (0, default=0)) }} %   \nIl rapporto di autoconsumo
+        di questo mese è del {{states.sensor.autoconsumo_mensile.state }} %\nIl rapporto
+        acquistato/prodotto è pari al {{ (((states.sensor.energy_buy_montly.state
+        |float(default=0)) * 100 / (states.sensor.pv_power_monthly.state |float (default=0)))
+        | round(0, default=0)) }} %   \n\n Sono stati:\n\n - Prodotti:    {{ states.sensor.pv_power_monthly.state
+        }} kw/h:\n                F1: {{ states.sensor.pv_power_monthly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.pv_power_monthly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.pv_power_monthly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.pv_power_monthly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.pv_power_monthly.state
+        |float(default=2) / 4)| round (2)  }} kw/h\n\n - Consumati:   {{ states.sensor.house_consumption_kw_montly.state
+        }} kw/h\n                F1: {{ states.sensor.house_consumption_fasce_mese_kw_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.house_consumption_fasce_mese_kw_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.house_consumption_fasce_mese_kw_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.house_consumption_kw_montly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.house_consumption_kw_montly.state
+        |float(default=2) / 4)| round (2)  }} kw/h\n\n - Acquistati:  {{ states.sensor.energy_buy_montly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_buy_montly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_buy_montly_fasce_f2.state
+        }} kw/h   \n                F3: {{ states.sensor.energy_buy_montly_fasce_f3.state
+        }} kw/h. \n   Media giornaliera:  {{ (states.sensor.energy_buy_montly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.energy_buy_montly.state
+        |float(default=2) / 4)| round (2)  }} kw/h\n\n - Venduti:     {{ states.sensor.energy_sell_montly.state
+        }} kw/h: \n                F1: {{ states.sensor.energy_sell_monthly_fasce_f1.state
+        }} kw/h   \n                F2: {{ states.sensor.energy_sell_monthly_fasce_f2.state
+        }} kw/h  \n                F3: {{ states.sensor.energy_sell_monthly_fasce_f3.state
+        }} kw/h.   \n   Media giornaliera:  {{ (states.sensor.energy_sell_montly.state
+        |float(default=2) / 30)| round (2)  }} kw/h\n   Media settimanale:  {{ (states.sensor.energy_sell_montly.state
+        |float(default=2) / 4)| round (2)  }} kw/h"
+      title: ⚡☀️ Autosufficienza Energetica Resoconto Mensile ☀️⚡
+    action: notify.ippolito_telegram
+  mode: restart
+- id: '1706868991340'
+  alias: 'Attribuisce il valore di solare per previsioni produzione '
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  condition: []
+  action:
+  - service: input_text.set_value
+    target:
+      entity_id: input_text.previsione_solare
+    data:
+      value: '{{ states.sensor.pv_power_daily.state  }}'
+  mode: restart
+- id: '1714837047476'
+  alias: Inverter - Spegnimento Automatico Ventole giorno
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.inverter_temperature
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+    below: 29
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.ventole_inverter_interruttore
+    data: {}
+  mode: restart
+- id: '1717517218428'
+  alias: ZHA - Apri cancello 2
+  description: ''
+  use_blueprint:
+    path: ts0041/ts0041.yaml
+    input:
+      button_one_short_press:
+      - service: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.10012e9bef_1
+      tuya_1button_scene_switch: b69e7c67e3e4b291c45f5cc45ad9707d
+- id: '1717864754673'
+  alias: Sveglia Stark 6.35
+  description: ''
+  trigger:
+  - platform: time
+    at: 06:35:00
+  condition:
+  - condition: state
+    entity_id: binary_sensor.giorni_lavorativi
+    state: 'on'
+  action:
+  - service: script.sveglia
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1719318137052'
+  alias: inverter - Accensione di giorno ventole
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - sensor.inverter_temperature
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+    above: 30
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.ventole_inverter_interruttore
+    data: {}
+  mode: restart
+- id: '1719477114242'
+  alias: Prese - Accensione automatica mattina
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_1
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.asciugatrice_presa
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_3
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.lavastoviglie_presa_1
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_6
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.microonde_presa_1
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_2
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.forno_presa_1
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_5
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.frig_aria_presa_1
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_8
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.bmb_mcf_presa_1
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_12
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.bagno_presa
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_13
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.esterno_presa
+  - if:
+    - condition: state
+      entity_id: input_boolean.clima_camere
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.shelly_clima_camere_switch_0
+  - if:
+    - condition: state
+      entity_id: input_boolean.clima_salone
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.shelly_clima_salone_switch_0
+  - if:
+    - condition: state
+      entity_id: input_boolean.clima_studio
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.shelly_clima_studio_switch_0
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_4
+      state: 'off'
+    then:
+    - service: switch.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.lavatrice_presa_1
+  mode: restart
+- id: '1727199622739'
+  alias: ISS - Passaggio a casa
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.international_space_station_iss_10_minute_pass_warning
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - action: notify.mobile_app_pocof5pro
+    metadata: {}
+    data:
+      title: ISS
+      message: la Stazione Spaziale è sopra la tua testa
+  mode: single
+- id: '1727367697806'
+  alias: Attiva il blocco tapparella della cucina
+  description: ''
+  trigger:
+  - device_id: aca918c7a4d5d541f1181d9c6d506869
+    domain: zha
+    platform: device
+    type: remote_button_short_press
+    subtype: remote_button_short_press
+  condition: []
+  action:
+  - action: input_boolean.toggle
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.tapparella_cucina_blocco
+  mode: single
+- id: '1737798063959'
+  alias: Apri Cancelletto Pedonale
+  description: ''
+  triggers:
+  - trigger: tag
+    tag_id: 987b4d2e-3814-40f4-bf40-c99f960bb1c3
+  conditions: []
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.apri_cancello_switch_0
+  mode: single
+- id: '1737986966082'
+  alias: Prese - Spegnimento Automatico 21.00
+  description: ''
+  triggers:
+  - at: '21:00:00'
+    trigger: time
+  conditions: []
+  actions:
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_1
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id: switch.asciugatrice_presa
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_3
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id: switch.lavastoviglie_presa_1
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_6
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.microonde_presa_1
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_2
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.forno_presa_1
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_5
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.frig_aria_presa_1
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_8
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.bmb_mcf_presa_1
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_12
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.bagno_presa
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_13
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id: switch.esterno_presa
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: input_boolean.clima_camere
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.shelly_clima_camere_switch_0
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: input_boolean.clima_salone
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.shelly_clima_salone_switch_0
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: input_boolean.clima_studio
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - switch.shelly_clima_studio_switch_0
+      action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: binary_sensor.ac_elettrodomestici_4
+      state: 'on'
+    then:
+    - metadata: {}
+      data: {}
+      target:
+        entity_id: switch.lavatrice_presa_1
+      action: switch.turn_off
+  mode: restart
+- id: '1738743551618'
+  alias: Pellet - diminuzione temp
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.pellet_comandi_2_interruttore_1
+  conditions: []
+  actions:
+  - action: input_number.decrement
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_number.pellet_temp
+  mode: single
+- id: '1738743701529'
+  alias: 'Pellet - aumento temp '
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.pellet_comandi_2_interruttore_2
+  conditions: []
+  actions:
+  - action: input_number.increment
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_number.pellet_temp
+  mode: single
+- id: '1739010625913'
+  alias: CalcioLive - Notifica 15 minuti prima della partita Inter
+  description: Invia una notifica al cellulare 15 minuti prima dell'inizio della partita.
+  triggers:
+  - value_template: '{{ (as_timestamp(strptime(state_attr(''sensor.calciolive_next_ita_2_salernitana'',
+      ''matches'')[0].date, ''%d/%m/%Y %H:%M'')) - 900) | timestamp_custom(''%Y-%m-%d
+      %H:%M'') == now().strftime(''%Y-%m-%d %H:%M'') }}
+
+      '
+    trigger: template
+  conditions:
+  - condition: template
+    value_template: '{{ state_attr(''sensor.calciolive_next_ita_2_salernitana'', ''matches'')[0].state
+      == ''pre'' }}
+
+      '
+  actions:
+  - data:
+      title: CalcioLive - Promemoria Partita
+      message: 'La partita tra {{ state_attr(''sensor.calciolive_next_ita_2_salernitana'',
+        ''matches'')[0].home_team }} e {{ state_attr(''sensor.calciolive_next_ita_2_salernitana'',
+        ''matches'')[0].away_team }} inizierà tra 15 minuti!
+
+        '
+      data:
+        image: '{{ state_attr(''sensor.calciolive_next_ita_2_salernitana'', ''team_logo'')
+          }}
+
+          '
+    action: notify.mobile_app_pocof5pro
+  mode: single
+- alias: Gestione Risposta DeepSeek
+  trigger:
+  - platform: event
+    event_type: call_service
+    event_data:
+      domain: rest_command
+      service: ask_deepseek
+  action:
+  - service: input_text.set_value
+    target:
+      entity_id: input_text.deepseek_raw_response
+    data:
+      value: '{{ state_attr(''rest_command.ask_deepseek'', ''response'') | to_json
+        }}'
+  - variables:
+      response_json: '{{ state_attr(''rest_command.ask_deepseek'', ''response'') }}'
+      extracted_text: '{{ response_json.choices[0].message.content if response_json.choices
+        else ''ERRORE: Risposta non valida'' }}'
+  - service: notify.notify
+    data:
+      title: DeepSeek Dice
+      message: '{{ extracted_text }}'
+  - service: input_text.set_value
+    target:
+      entity_id: input_text.last_deepseek_answer
+    data:
+      value: '{{ extracted_text }}'
+  id: db9aff45c54f4f68a9e95fd45c102843
+- id: '1744447869880'
+  alias: Nuova automazione
+  description: ''
+  triggers: []
+  conditions: []
+  actions: []
+  mode: single
+- id: '1744640710974'
+  alias: Citofono interno
+  description: ''
+  triggers:
+  - device_id: 7594d7ab893efe780589803e3caf4a80
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_1
+    trigger: device
+  conditions: []
+  actions:
+  - action: persistent_notification.create
+    metadata: {}
+    data:
+      message: Qualcuno bussa al cancello
+      title: Controllo accessi
+  - action: notify.mobile_app_pocof5pro
+    metadata: {}
+    data:
+      message: Qualcuno suona al cancello
+      title: Controllo Accessi
+      data:
+        tts_text: Qualcuno suona al cancello
+  - action: notify.mobile_app_pocox6
+    metadata: {}
+    data:
+      message: Qualcuno suona al cancello
+      title: Controllo Accessi
+      data:
+        tts_text: Qualcuno suona al cancello
+  - action: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:+393346494547@voip.eutelia.it
+        message_tts: Qualcuno bussa al cancello
+  - action: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:+393663366618@voip.eutelia.it
+        message_tts: Qualcuno bussa al cancello
+    mode: single
+- id: '1744814535238'
+  alias: Update ISPRA Sensor
+  description: ''
+  triggers:
+  - minutes: '0'
+    trigger: time_pattern
+  - trigger: state
+    entity_id:
+    - input_button.ispra_update
+    to:
+  actions:
+  - action: shell_command.download_ispra_c6h6_data
+    data: {}
+  - action: shell_command.download_ispra_pm25_data
+    data: {}
+  - action: shell_command.download_ispra_pm10_data
+    data: {}
+  - action: shell_command.download_ispra_o3_data
+    data: {}
+  - action: shell_command.download_ispra_so2_data
+    data: {}
+  - action: shell_command.download_ispra_no2_data
+    data: {}
+  - action: shell_command.download_ispra_co_data
+    data: {}
+  - delay: 00:00:10
+  - target:
+      entity_id: sensor.co_orario_it1658a
+    action: homeassistant.update_entity
+    data:
+      entity_id:
+      - sensor.co_ispra
+      - sensor.o3_ispra
+      - sensor.c6h6_ispra
+      - sensor.no2_ispra
+      - sensor.pm10_ispra
+      - sensor.so2_ispra
+      - sensor.pm25_ispra
