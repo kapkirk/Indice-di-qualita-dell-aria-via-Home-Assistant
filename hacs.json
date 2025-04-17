@@ -1,6 +1,6 @@
 {
   "name": "Italy Air Quality System",
-  "render_readme": "true"
+  "render_readme": true,
   "content_in_root": true,
   "country": ["IT"]
 }
