@@ -1,0 +1,240 @@
+homeassistant:
+  customize:
+    package.node_anchors:
+      customize: &customize
+        package: 'Indice Qualità Ambientale'
+        author: 'Ippolito Salati - Kapkirk'
+        reference: 'WebSite: https://github.com/kapkirk/'
+
+####################################################
+#                                                  #
+#                   SENSORI                        #
+#                                                  #
+####################################################
+
+shell_command:
+
+  download_ispra_co_data: >
+    curl -s -L -o /config/dati_ispra/co_data.csv
+    "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%2710%27&maxFeatures=10000&outputFormat=csv"
+
+  download_ispra_so2_data: >
+    curl -s -L -o /config/dati_ispra/so2_data.csv
+    "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%271%27&maxFeatures=10000&outputFormat=csv"
+
+  download_ispra_c6h6_data: >
+    curl -s -L -o /config/dati_ispra/c6h6_data.csv
+    "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%2720%27&maxFeatures=10000&outputFormat=csv"
+
+
+  download_ispra_pm10_data: >
+    curl -s -L -o /config/dati_ispra/pm10_data.csv
+    "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%275%27&maxFeatures=10000&outputFormat=csv"
+
+
+  download_ispra_pm25_data: >
+    curl -s -L -o /config/dati_ispra/pm25_data.csv
+    "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%276001%27&maxFeatures=10000&outputFormat=csv"
+
+
+  download_ispra_o3_data: >
+    curl -s -L -o /config/dati_ispra/o3_data.csv
+    "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%277%27&maxFeatures=10000&outputFormat=csv"
+
+
+  download_ispra_no2_data: >
+    curl -s -L -o /config/dati_ispra/no2_data.csv
+    "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%278%27&maxFeatures=10000&outputFormat=csv"
+
+command_line:
+  - sensor:
+      name: "co_ispra"
+      unique_id: "co_ispra"
+      command: 'python3 /config/python_scripts/ispra.py'
+      value_template: '{{ value_json.CO.value }}'
+      unit_of_measurement: "mg/m³"
+      state_class: measurement
+      json_attributes_path: "$.CO"
+      json_attributes:
+        - full_data
+      scan_interval: 3600
+
+  - sensor:
+      name: "so2_ispra"
+      unique_id: "so2_ispra"
+      command: 'python3 /config/python_scripts/ispra.py'
+      value_template: '{{ value_json.SO2.value }}'
+      unit_of_measurement: "mg/m³"
+      state_class: measurement
+      json_attributes_path: "$.SO2"
+      json_attributes:
+        - full_data
+      scan_interval: 3600
+
+  - sensor:
+      name: "c6h6_ispra"
+      unique_id: "c6h6_ispra"
+      command: 'python3 /config/python_scripts/ispra.py'
+      value_template: '{{ value_json.C6H6.value }}'
+      unit_of_measurement: "mg/m³"
+      state_class: measurement
+      json_attributes_path: "$.C6H6"
+      json_attributes:
+        - full_data
+      scan_interval: 3600
+
+  - sensor:
+      name: "pm10_ispra"
+      unique_id: "pm10_ispra"
+      command: 'python3 /config/python_scripts/ispra.py'
+      value_template: '{{ value_json.PM10.value }}'
+      unit_of_measurement: "mg/m³"
+      state_class: measurement
+      json_attributes_path: "$.PM10"
+      json_attributes:
+        - full_data
+      scan_interval: 3600
+
+  - sensor:
+      name: "pm25_ispra"
+      unique_id: "pm25_ispra"
+      command: 'python3 /config/python_scripts/ispra.py'
+      value_template: '{{ value_json.PM25.value }}'
+      unit_of_measurement: "mg/m³"
+      state_class: measurement
+      json_attributes_path: "$.PM25"
+      json_attributes:
+        - full_data
+      scan_interval: 3600
+
+  - sensor:
+      name: "o3_ispra"
+      unique_id: "o3_ispra"
+      command: 'python3 /config/python_scripts/ispra.py'
+      value_template: '{{ value_json.O3.value }}'
+      unit_of_measurement: "mg/m³"
+      state_class: measurement
+      json_attributes_path: "$.O3"
+      json_attributes:
+        - full_data
+      scan_interval: 3600
+
+  - sensor:
+      name: "no2_ispra"
+      unique_id: "no2_ispra"
+      command: 'python3 /config/python_scripts/ispra.py'
+      value_template: '{{ value_json.NO2.value }}'
+      unit_of_measurement: "mg/m³"
+      state_class: measurement
+      json_attributes_path: "$.NO2"
+      json_attributes:
+        - full_data
+      scan_interval: 3600
+
+
+####################################################
+#                                                  #
+#               TEMPLATE                           #
+#                                                  #
+####################################################
+
+template:
+
+  - sensor:
+    - name: "aqi_ispra"
+      unique_id: qualita_aria_ispra
+      state: >
+          {% set sensori = [
+            'sensor.co_ispra',
+            'sensor.pm25_ispra',
+            'sensor.no2_ispra',
+            'sensor.so2_ispra',
+            'sensor.co_ispra',
+            'sensor.o3_ispra',
+            'sensor.c6h6_ispra'
+          ] %}
+          
+          {% set classi = {
+            '6': 'ottima',
+            '5': 'buona',
+            '4': 'discreta',
+            '3': 'sufficiente',
+            '2': 'scarsa'
+          } %}
+          
+          {% set valori_numerici = [
+            (states.sensor.pm10_ispra.attributes.full_data.pollutant_level),
+            (states.sensor.pm25_ispra.attributes.full_data.pollutant_level),
+            (states.sensor.co_ispra.attributes.full_data.pollutant_level),
+            (states.sensor.c6h6_ispra.attributes.full_data.pollutant_level),
+            (states.sensor.no2_ispra.attributes.full_data.pollutant_level),
+            (states.sensor.so2_ispra.attributes.full_data.pollutant_level),
+            (states.sensor.o3_ispra.attributes.full_data.pollutant_level)    
+          ] | select('!=', None) | list %}
+          
+          {% if valori_numerici %}
+            {% set valore_peggiore = valori_numerici | min %}
+            {{ classi[valore_peggiore] }}
+          {% else %}
+            non disponibile
+          {% endif %}      
+
+
+####################################################
+#                                                  #
+#               INPUT BOOLEAN                      #
+#                                                  #
+####################################################
+
+input_boolean:
+  ispra_update:
+    name: Ispra Update
+    icon: mdi:button-cursor
+
+####################################################
+#                                                  #
+#                     AUTOMAZIONI                  #
+#                                                  #
+####################################################
+
+automation:
+- alias: Update ISPRA Sensor
+  description: ''
+  triggers:
+  - minutes: '0'
+    trigger: time_pattern
+  - trigger: state
+    entity_id:
+    - input_button.ispra_update
+    to:
+  actions:
+  - action: shell_command.download_ispra_c6h6_data
+    data: {}
+  - action: shell_command.download_ispra_pm25_data
+    data: {}
+  - action: shell_command.download_ispra_pm10_data
+    data: {}
+  - action: shell_command.download_ispra_o3_data
+    data: {}
+  - action: shell_command.download_ispra_so2_data
+    data: {}
+  - action: shell_command.download_ispra_no2_data
+    data: {}
+  - action: shell_command.download_ispra_co_data
+    data: {}
+  - action: python_script.ispra
+    metadata: {}
+    data: {}
+  - delay: 00:00:10
+  - target:
+      entity_id: sensor.co_orario_it1658a
+    action: homeassistant.update_entity
+    data:
+      entity_id:
+      - sensor.co_ispra
+      - sensor.o3_ispra
+      - sensor.c6h6_ispra
+      - sensor.no2_ispra
+      - sensor.pm10_ispra
+      - sensor.so2_ispra
+      - sensor.pm25_ispra
