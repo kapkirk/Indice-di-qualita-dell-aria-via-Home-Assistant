@@ -380,7 +380,7 @@ Il risultato finale sarà il saeguente:
 
 ![lovelace_complessiva](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/lovelace_complessiva.jpg)
 
-
+Ovviamente, avendo a disposizione tutti i dati che costituiscono il sensore, potrete utilizzarli per esporre ciò che più vi piace ricordate solo che gli attributi sono tutti all'intero dei _**full_data.**_, quindi andranno richiamati ed utilizzati così come vedete nel codice della scheda di visualizzazione.
 
 Il pulsante che vedete con l'etichetta (Aggiornamento dati ISPRA) è quello reso disponibile dal **_packages_**  nella configurazione sopra esposta che utilizzo per l'aggiornamento manuale dei dati.
 
