@@ -288,6 +288,39 @@ Dato per assodato che abbiamo superato il primo step dei prerequisiti, l'install
 
 **_INSERIRE IMMAGINE STRUTURA DIRECTORY_**
 
+### 4 - Personalizzazione
+
+Dato aver copiato tutti i files, oppure prima di farlo, se preferite, passiamo alla loro modifica:
+- Aprite con un editor il file che ora sarà presente nella cartella **_packages_** denominato _**`pkg_ispra.yaml`_**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 5 - Configurazione Lovelace di Home Assistant
 
 Il codice sopra inserito, dopo il riavvio di HA ed il primo aggiornamento dei sensori, generà:
 - Sette sensori, uno per ogni inquinante (sensor.co_ispra, sensor.so2_ispra, sensor.c6h6_ispra, sensor.pm10_ispra, sensor.pm25_ispra, sensor.o3_ispra, sensor.no2_ispra):
@@ -301,8 +334,6 @@ Il codice sopra inserito, dopo il riavvio di HA ed il primo aggiornamento dei se
 - un pulsante per l'aggiornamento manuale dei dati (input_button.ispra_update);
 - una automazione che provvederà all'aggiornamento ogni ora dei sensori (auotmation.update_ispra_sensor)
 
-
-### 4 - Configurazione Lovelace di Home Assistant
 
 I sensori sono stati creati e possiamo dunque configurare la scheda Lovelace per la sua visualizzazione. Io ho scelto quella indicata nei prerequisiti anche perchè consente, cliccando sulle intestazioni, di visualizzare i dati secondo l'ordine preferito.
 
