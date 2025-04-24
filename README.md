@@ -39,7 +39,7 @@ Il seguente progetto è così articolato:
 
 ## Descrizione del progetto
 
-Scopo principale di questo progetto  è quello di automatizzare l`acquisizione "in quasi tempo reale" di un indice di qualità dell'aria acquisendo i dati ambientali pubblicati tramite API dall'ISPRA che li acquisisce della diverse Agenzie Regionali di Protezione e Prevenzione Ambientale sparse su tutto il territorio nazionale, la loro elaborazione tramite Node-RED e la successiva integrazione in Home Assistant per la successiva visualizzazione.
+Scopo principale di questo progetto  è quello di automatizzare l`acquisizione "_in quasi tempo reale_" di un indice di qualità dell'aria utilizzando i dati ambientali pubblicati tramite _API_ dall'ISPRA a cui pervengono dalle diverse Agenzie Regionali di Protezione e Prevenzione Ambientale sparse su tutto il territorio nazionale, la loro elaborazione e la successiva integrazione in Home Assistant per la successiva visualizzazione.
 
 Tutte le info sono disponibili sul sito dell'Istituto traime il [S.I.N.A.](https://sinacloud.isprambiente.it/portal/apps/experiencebuilder/experience/?draft=true&id=df677d20871d4383b34ce355e24f0598&page=page_38) (**Sistema Unformativo Nazionale Ambientale**) secondo la [mappa](https://sinacloud.isprambiente.it/portal/apps/experiencebuilder/experience/?draft=true&id=df677d20871d4383b34ce355e24f0598&page=page_62) dove i dati sono disponbili per il [download](https://sinacloud.isprambiente.it/portal/apps/experiencebuilder/experience/?draft=true&id=df677d20871d4383b34ce355e24f0598&page=page_74). 
 
@@ -60,13 +60,13 @@ Tutte le info sono disponibili sul sito dell'Istituto traime il [S.I.N.A.](https
 ## Descrizione del Funzionamento
 
 1. **Acquisizione Dati**:  
-   Node-RED effettua chiamate API ogni ora, filtra i dati e restituisce il singolo valore aggiornato.
+   Ogni ora Home Assistant, mediante una interrogazione acquisisce i dati aggiornati, li filtra e restituisce il valore aggiornato del singolo inquinante.
 
 2. **Elaborazione**:  
-   I dati vengono analizzati e restituiti sian singolarmente che in modo aggregato fornendo il singolo valore di qualità dell'aria. 
+   I dati vengono analizzati e restituiti sia singolarmente che in modo aggregato fornendo un giudizio di qualità dell'aria. 
 
 3. **Invio a Home Assistant**:  
-   I payload sono pubblicati in sensori direttamente esposti in HA.
+   Tutti i dati acquisiti sono pubblicati come elementi dei singoli sensori direttamente esposti in HA.
 
 5. **Visualizzazione**:  
    I dati dati così ottenuti sono graficamente esposti.
@@ -77,11 +77,21 @@ Tutte le info sono disponibili sul sito dell'Istituto traime il [S.I.N.A.](https
 
 ### 1 - Prerequisiti
 
-- Node-RED installato e configurato con nodi:
-  - `node-red-contrib-http-request`
-- HACS installata e configurata con:
-  - la custom `flex-table-card` (Se volete utilizzare la tabella di visualizzazione come ho fatto io).
-  - `Node-RED Companion` per l'interfaccia dei sensori.
+- Abilitazione dei  **`packages`** e degli **`scripts python`**:
+   - in HA aprire il file **`configuration.yaml`** mediante un editor di testo:   
+      - inserire il seguente codice se già non presente:
+      
+      codice:
+      ```
+      homeassistant:
+        packages: !include_dir_named packages
+      
+      python_script: 
+      ```
+
+- HACS installato e configurato con i seguenti pacchetti installati:
+  - la custom  `flex-table-card` (Se volete utilizzare la tabella di visualizzazione come ho fatto io).
+
 
 
 ### 2 - Configurazione dei dati da acquisire
