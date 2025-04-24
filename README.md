@@ -96,7 +96,7 @@ Tutte le info sono disponibili sul sito dell'Istituto traime il [S.I.N.A.](https
 
 ### 2 - Configurazione dei dati da acquisire
 
-1.Come già anticipato i dati sono acquisiti tramite le API pubbliche messe a disposizione dall`ARPA. Le centraline disponibili (dato aggiornato al 9/4/2025) sono le seguenti:
+1.Come già anticipato i dati sono acquisiti tramite le API pubbliche messe a disposizione dalle ARPA mediante l'ISPRA. Le centraline disponibili (dato aggiornato al 9/4/2025) sono le seguenti:
 
 |Regione|             Inquinante                                     |  
 | -------- | -------------------------------------------------------- | 
@@ -257,7 +257,7 @@ TRENTO|Nitrogen dioxide (air)|PA_TRENTO - Nitrogen dioxide (air)
 - Accedere alla pagine del [download](https://sinacloud.isprambiente.it/portal/apps/experiencebuilder/experience/?data_id=dataSource_137-infoariadowload_7094-infoariadowload%3A127&draft=true&id=df677d20871d4383b34ce355e24f0598&page=page_74)
 - Selezionare la Regione della quale si vuole acquisire il dato inquinante ed individuare il rigo dell'inquinante. Il terzo campo della tabella conterrà il link per il download che bisognerà copiare per inserirlo nel flusso di Node-RED.
   
-  Ad esempio, volendo conoscere il dato di SO2 per la Regione Abruzzo, otterremo il seguente link:
+  Ad esempio, volendo conoscere il dato di **_SO2_** per la Regione Abruzzo, otterremo il seguente link:
 
     `https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27ABRUZZO%27+AND+pollutant_id=%271%27&maxFeatures=10000&outputFormat=csv `
 
@@ -279,21 +279,14 @@ TRENTO|Nitrogen dioxide (air)|PA_TRENTO - Nitrogen dioxide (air)
      - individuate il dato riportato nella colonna campo `station_eu_code`  (es: IT1659A), prendetene nota!
        
     
-### 3 - Configurazione in Node-RED
+### 3 - Configurazione in Home Assistant
 
-1. Creare i sensori:
-- Editare i singoli `sensor node` creando una nuona configurazione per ogni sensore. In pratica:
-- selezionare tra le `home assistant entities` il nodo `sensor` e trasportarlo nel flusso;
-- editate il nodo `sensor`;
-- cliccare su `+` dopo la voce `Entity config`;
-- inserire il nome del sensore nel campo `nome`;
-- cliccare su `+` dopo la voce `Device` e nella successva maschera inserire ad esempio `Node-RED`;
-- nel campo `type` inserire la voce `sensor`;
-- nel campo `Friendly name` il nome del sensore, ad esempio `CO Orario`;
-- nel campo `Unit of measurement` l'unità di misura, ad esempio `mg/m³`;
-- in alto cliccare su `Add`. Il programma tornerà alla schermata precedente di configurazione del sensore, ottenendo la seguente configurazione:
+1. Dato per assodato che abbiamo superato il primo step dei prerequisiti, l'installazione del progetto è abbatstanza facile perchè ho racchiuso quasi tutto in un _package_, bisognerà procedere come segue:
+- Scaricate il pacchetto intero del progetto da github;
+- copiate:
+   - Nella cartella principale del **_`config`_** di HA le cartelle _**`python_script`**_, _**`packages`**_ e _**`dati_ispra`**_, oppure, inserite singolarmente i files al loro interno  nelle cartelle che già avete;
+- I files così inseriti vi daranno la seguente configurazione:
 
-![sensore](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/Sensore.png)
 
   
 - inserire un nome da attribuire al `sensor`, ad esempio `CO Orario`;
