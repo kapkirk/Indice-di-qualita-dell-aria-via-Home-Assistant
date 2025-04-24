@@ -283,10 +283,9 @@ TRENTO|Nitrogen dioxide (air)|PA_TRENTO - Nitrogen dioxide (air)
 
 Dato per assodato che abbiamo superato il primo step dei prerequisiti, l'installazione del progetto è abbatstanza facile perchè ho racchiuso quasi tutto in un _package_, bisognerà procedere come segue:
 - Scaricate il pacchetto intero del progetto da github;
-- copiate nella cartella principale del **_`config`_** di HA le cartelle _**`python_script`**_, _**`packages`**_ e _**`dati_ispra`**_, oppure, inserite singolarmente i files al loro interno nelle cartelle che già avete;
-- I files così inseriti vi daranno la seguente configurazione:
+- copiate nella cartella principale del **_`config`_** di HA le cartelle _**`python_script`**_, _**`packages`**_ e _**`dati_ispra`**_, oppure, inserite singolarmente i files al loro interno nelle cartelle che già avete.
 
-**_INSERIRE IMMAGINE STRUTURA DIRECTORY_**
+
 
 ### 4 - Personalizzazione
 
