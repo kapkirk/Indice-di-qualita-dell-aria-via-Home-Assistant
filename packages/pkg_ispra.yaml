@@ -14,13 +14,13 @@ homeassistant:
 ####################################################
 
       setting:
-        Stringa download CO: &stringa_co 'curl -s -L -o /config/dati_ispra/co_data.csv "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%271%27&maxFeatures=10000&outputFormat=csv"'
-        Stringa download SO2: &stringa_so2 'curl -s -L -o /config/dati_ispra/so2_data.csv "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%271%27&maxFeatures=10000&outputFormat=csv"'
-        Stringa download C6H6: &stringa_c6h6 'curl -s -L -o /config/dati_ispra/c6h6_data.csv "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%2720%27&maxFeatures=10000&outputFormat=csv"'
-        Stringa download PM10: &stringa_pm10 'curl -s -L -o /config/dati_ispra/pm10_data.csv "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%275%27&maxFeatures=10000&outputFormat=csv"'
-        Stringa download PM25: &stringa_pm25 'curl -s -L -o /config/dati_ispra/pm25_data.csv "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%276001%27&maxFeatures=10000&outputFormat=csv"'
-        Stringa download O3: &stringa_o3 'curl -s -L -o /config/dati_ispra/o3_data.csv "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%277%27&maxFeatures=10000&outputFormat=csv"'
-        Stringa download NO2: &stringa_no2 'curl -s -L -o /config/dati_ispra/no2_data.csv "https://sdi.isprambiente.it/geoserver/infoaria/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=infoaria%3Adati_nrt_informambiente_mv&CQL_FILTER=region_name=%27PUGLIA%27+AND+pollutant_id=%278%27&maxFeatures=10000&outputFormat=csv"'
+        Stringa download CO: &stringa_co 'curl -s -L -o /config/dati_ispra/co_data.csv "INSERIRE QUI LA STRINGA PER IL DOWNLOAD (NON TOGLIERE LE VIRGOLETTE)"'
+        Stringa download SO2: &stringa_so2 'curl -s -L -o /config/dati_ispra/so2_data.csv "INSERIRE QUI LA STRINGA PER IL DOWNLOAD (NON TOGLIERE LE VIRGOLETTE)"'
+        Stringa download C6H6: &stringa_c6h6 'curl -s -L -o /config/dati_ispra/c6h6_data.csv "INSERIRE QUI LA STRINGA PER IL DOWNLOAD (NON TOGLIERE LE VIRGOLETTE)"'
+        Stringa download PM10: &stringa_pm10 'curl -s -L -o /config/dati_ispra/pm10_data.csv "INSERIRE QUI LA STRINGA PER IL DOWNLOAD (NON TOGLIERE LE VIRGOLETTE)"'
+        Stringa download PM25: &stringa_pm25 'curl -s -L -o /config/dati_ispra/pm25_data.csv "INSERIRE QUI LA STRINGA PER IL DOWNLOAD (NON TOGLIERE LE VIRGOLETTE)"'
+        Stringa download O3: &stringa_o3 'curl -s -L -o /config/dati_ispra/o3_data.csv "INSERIRE QUI LA STRINGA PER IL DOWNLOAD (NON TOGLIERE LE VIRGOLETTE)"'
+        Stringa download NO2: &stringa_no2 'curl -s -L -o /config/dati_ispra/no2_data.csv "INSERIRE QUI LA STRINGA PER IL DOWNLOAD (NON TOGLIERE LE VIRGOLETTE)"'
 
 
 
@@ -54,7 +54,6 @@ command_line:
       unique_id: "co_ispra"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.CO.value }}'
-      unit_of_measurement: "mg/m³"
       state_class: measurement
       json_attributes_path: "$.CO"
       json_attributes:
@@ -66,7 +65,6 @@ command_line:
       unique_id: "so2_ispra"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.SO2.value }}'
-      unit_of_measurement: "mg/m³"
       state_class: measurement
       json_attributes_path: "$.SO2"
       json_attributes:
@@ -78,7 +76,6 @@ command_line:
       unique_id: "c6h6_ispra"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.C6H6.value }}'
-      unit_of_measurement: "mg/m³"
       state_class: measurement
       json_attributes_path: "$.C6H6"
       json_attributes:
@@ -90,7 +87,6 @@ command_line:
       unique_id: "pm10_ispra"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.PM10.value }}'
-      unit_of_measurement: "mg/m³"
       state_class: measurement
       json_attributes_path: "$.PM10"
       json_attributes:
@@ -102,7 +98,6 @@ command_line:
       unique_id: "pm25_ispra"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.PM25.value }}'
-      unit_of_measurement: "mg/m³"
       state_class: measurement
       json_attributes_path: "$.PM25"
       json_attributes:
@@ -114,7 +109,6 @@ command_line:
       unique_id: "o3_ispra"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.O3.value }}'
-      unit_of_measurement: "mg/m³"
       state_class: measurement
       json_attributes_path: "$.O3"
       json_attributes:
@@ -126,7 +120,6 @@ command_line:
       unique_id: "no2_ispra"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.NO2.value }}'
-      unit_of_measurement: "mg/m³"
       state_class: measurement
       json_attributes_path: "$.NO2"
       json_attributes:
@@ -188,7 +181,7 @@ template:
 #                                                  #
 ####################################################
 
-input_boolean:
+input_button:
   ispra_update:
     name: Ispra Update
     icon: mdi:button-cursor
