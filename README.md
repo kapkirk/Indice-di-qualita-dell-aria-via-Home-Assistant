@@ -291,10 +291,12 @@ Dato per assodato che abbiamo superato il primo step dei prerequisiti, l'install
 
 Il codice sopra inserito, dopo il riavvio di HA ed il primo aggiornamento dei sensori, generà:
 - Sette sensori, uno per ogni inquinante (sensor.co_ispra, sensor.so2_ispra, sensor.c6h6_ispra, sensor.pm10_ispra, sensor.pm25_ispra, sensor.o3_ispra, sensor.no2_ispra):
-      **_INSERIRE IMMAGINE della STRUTURA del sensore_**
-  
-- un sensore che indicherà un giudizio sintetico sulla qualità dell'aria (sensor.aqi_ispra)_
-     **_INSERIRE IMMAGINE della STRUTURA del sensore_**
+
+  ![lovelace_sensori](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/Sensore_inquinante.jpg)
+   
+- un sensore che indicherà un giudizio sintetico sulla qualità dell'aria (sensor.aqi_ispra):
+
+  ![lovelace_aqi](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/Sensore_aqi.jpg)
   
 - un pulsante per l'aggiornamento manuale dei dati (input_button.ispra_update);
 - una automazione che provvederà all'aggiornamento ogni ora dei sensori (auotmation.update_ispra_sensor)
@@ -360,15 +362,24 @@ grid_options:
 ```
 
 
+Il risultato finale sarà il saeguente:
 
-Il pulsante che vedete con l'etichetta (Aggiornamento dati ISPRA) è quello reso disponibile da Node-RED nella configurazione sopra esposta che utilizzo per l'aggiornamento manuale dei dati.
+![lovelace_complessiva](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/lovelace_complessiva.jpg)
+
+
+
+Il pulsante che vedete con l'etichetta (Aggiornamento dati ISPRA) è quello reso disponibile dal **_packages_**  nella configurazione sopra esposta che utilizzo per l'aggiornamento manuale dei dati.
 
 La seconda parte che vedete nella foto, invece, è quella dedicata ai dati ambientali provenienti direttamente da ARPA Puglia. In questo caso, però, i dati sono acquisiti, filtrati e validati dall'Ente che li pubblica con cadenza giornaliera, essi sono riferiti al giorno precedente. 
 Se a qualcuno dovessero interessare, questi sono i link ai due progetti:
-
 - [Implementazione in Home Assistant tramite Node-RED](https://github.com/kapkirk/Dati-ambientali-ARPA-Puglia-via-Home-Assistant-e-NodeRED)
 - [Implementazione in Home Assistant tramite Node-RED ed MQTT](https://github.com/kapkirk/Dati-ambientali-ARPA-Puglia-via-Home-Assistant)
-  
 
-Lavoro finito e buon divertimento!
+Questo, invece, è il link ad analogo progetto realizzato con l'ausilio di Node-RED:
+- [Implementazione in Home Assistant tramite Node-RED](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant-e-NodeRED)]
+
+
+Lavoro finito e buon divertimento! 
+
+Se ti è piaciuto ... lascia una stella.
 
