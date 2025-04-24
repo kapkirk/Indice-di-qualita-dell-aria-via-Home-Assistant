@@ -30,9 +30,9 @@ Il seguente progetto è così articolato:
 4. **Installazione**
    1. **Prerequisiti**
    1. **Configurazione dei dati da acquisire**
-   1. **Configurazione di Node-RED**
-   1. **Gestione della Lovelace**
-   1. **Configurazione Sensore di Qualità dell'Aria**
+   1. **Configurazione in Home Assistant**
+   1. **Personalizzazione**
+   1. **Configurazione Lovelace di Home Assistant**
  
 <br>
 
