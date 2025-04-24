@@ -290,34 +290,16 @@ Dato per assodato che abbiamo superato il primo step dei prerequisiti, l'install
 
 ### 4 - Personalizzazione
 
-Dato aver copiato tutti i files, oppure prima di farlo, se preferite, passiamo alla loro modifica:
-- Aprite con un editor il file che ora sarà presente nella cartella **_packages_** denominato _**`pkg_ispra.yaml`_**
+Dato aver copiato tutti i files, oppure prima di farlo se preferite, passiamo alla loro modifica:
+- Aprite con l'editor il file che ora sarà presente nella cartella **_packages_** denominato **_`pkg_ispra.yaml`_**. Nella sezione _**`setting`**_ del file inserite i link per scaricare gli inquinanti ottenuti come indicati sopra, esattamente qui:
 
+  **_INSERIRE IMMAGINE del file da modificare_**
 
+- Aprite con l'editor il file nella cartella **_python_scripts_** denominato **_`ispra.py`_**. All'interno di esso potrete distinguere una sezione per ogni inquinante. Nella prima riga di ogni inquinante dovrete inserire il codice europeo della stazione acquisito come sopra descritto, esattamente qui:
 
+  **_INSERIRE IMMAGINE del file da modificare_**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+La personalizzazione del codice è terminata.
 
 
 ### 5 - Configurazione Lovelace di Home Assistant
