@@ -1,0 +1,14 @@
+type: tile
+entity: sensor.aqi
+features_position: bottom
+vertical: false
+name: Qualità dell'Aria
+icon: mdi:air-filter
+color: primary
+tap_action:
+  action: none
+icon_tap_action:
+  action: none
+grid_options:
+  columns: 10
+  rows: 1
