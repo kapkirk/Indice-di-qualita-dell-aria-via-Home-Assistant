@@ -376,7 +376,7 @@ Se a qualcuno dovessero interessare, questi sono i link ai due progetti:
 - [Implementazione in Home Assistant tramite Node-RED ed MQTT](https://github.com/kapkirk/Dati-ambientali-ARPA-Puglia-via-Home-Assistant)
 
 Questo, invece, è il link ad analogo progetto realizzato con l'ausilio di Node-RED:
-- [Implementazione in Home Assistant tramite Node-RED](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant-e-NodeRED)]
+- [Implementazione in Home Assistant tramite Node-RED](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant-e-NodeRED)
 
 
 Lavoro finito e buon divertimento! 
