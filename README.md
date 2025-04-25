@@ -73,8 +73,15 @@ Waqi è considerato da molti uno dei siti più affidabili. Anche Waqi come IqAir
 ma la situazione più preoccupante è la qualità del dato. Per città fortemente monitorate come Brindisi e Taranto non esistono centraline di monitoraggio attive, mentre per piccoli paesi ne compaiono anche più di dieci: 
 ![waqi2](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi2.jpg)
 
-La cosa mi ha incuriosito molto e così ho scoperto la natura e la provenienza dei loro dati:
+La cosa mi ha incuriosito molto, così ho deciso di approfondire il discorso cercando di capire soprattutto come sia possibile che a distanza di 3,5 km possano verificarsi situazioni come quelle che vedete in foto:
 ![waqi3](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi3.jpg) ![waqi4](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi4.jpg)
+
+Così ho scoperto che le centraline adottate da Waqi, denominate "sensor.community" sono centraline autocostruite con sistemi ESP32 o NodeMcu i cui dati sono messi a disposizione sul loro [sito](https://sensor.community/it/) dedicato e la cui mappa corrisponde perfettamente con quella del sito Waqi:
+
+![waqi2](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi2.jpg)
+![sc1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/sc1.jpg)
+
+
 ---
 
 ## Caratteristiche principali
