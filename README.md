@@ -369,12 +369,16 @@ Dato per assodato che abbiamo superato il primo step dei prerequisiti, l'install
 Dato aver copiato tutti i files, oppure prima di farlo se preferite, passiamo alla loro modifica:
 - Aprite con l'editor il file che ora sarà presente nella cartella **_packages_** denominato **_`pkg_ispra.yaml`_**. Nella sezione _**`setting`**_ del file inserite i link per scaricare gli inquinanti ottenuti come indicati sopra, esattamente qui:
 
-![modifica_pkg](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/modifica_pkg.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/modifica_pkg.jpg">
+</p>
 
 
 - Aprite con l'editor il file nella cartella **_python_scripts_** denominato **_`ispra.py`_**. All'interno di esso potrete distinguere una sezione per ogni inquinante. Nella prima riga di ogni inquinante dovrete inserire il codice europeo della stazione acquisito come sopra descritto, esattamente qui:
 
-![modifica_py](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/modifica_py.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/modifica_py.jpg">
+</p>
 
 La personalizzazione del codice è terminata.
 
@@ -384,11 +388,15 @@ La personalizzazione del codice è terminata.
 Il codice sopra inserito, dopo il riavvio di HA ed il primo aggiornamento dei sensori, generà:
 - Sette sensori, uno per ogni inquinante (sensor.co_ispra, sensor.so2_ispra, sensor.c6h6_ispra, sensor.pm10_ispra, sensor.pm25_ispra, sensor.o3_ispra, sensor.no2_ispra):
 
-  ![lovelace_sensori](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/Sensore_inquinante.jpg)
-   
+<p align="center">
+  <img align="center" alt="logo" src="images/Sensore_inquinante.jpg">
+</p>
+
 - un sensore che indicherà un giudizio sintetico sulla qualità dell'aria (sensor.aqi_ispra):
 
-  ![lovelace_aqi](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/Sensore_aqi.jpg)
+ <p align="center">
+  <img align="center" alt="logo" src="images/Sensore_aqi.jpg">
+</p>
   
 - un pulsante per l'aggiornamento manuale dei dati (input_button.ispra_update);
 - una automazione che provvederà all'aggiornamento ogni ora dei sensori (auotmation.update_ispra_sensor)
@@ -398,7 +406,9 @@ I sensori sono stati creati e possiamo dunque configurare la scheda Lovelace per
 
 - Nella _Dashbord_ della _lovelace_, dove preferite, aprite una nuova scheda ed incollate il codice del file `HA lovelace dati.txt` ed il risultato sarà questo:
 
-![lovelace_dati](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/HA_lovelace_dati.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/HA_lovelace_dati.jpg">
+</p>
 
 codice:
 ```yaml
@@ -429,7 +439,9 @@ grid_options:
 
 - Mentre, il sensore con il giudizio di qualità dell'aria  _`sensor.aqi_ispra`_ nella _lovelace_ lo visualizzo come segue:
 
-![lovelace_aqi](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/HA_lovelace_aqi.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/HA_lovelace_aqi.jpg">
+</p>
 
   aprite una nuova scheda ed incollate il codice del file `HA lovelace aqi.txt` ed il risultato sarà questo:
 
@@ -454,7 +466,9 @@ grid_options:
 
 Il risultato finale sarà il saeguente:
 
-![lovelace_complessiva](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/lovelace_complessiva.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/lovelace_complessiva.jpg">
+</p>
 
 Ovviamente, avendo a disposizione tutti i dati che costituiscono il sensore, potrete utilizzarli per esporre ciò che più vi piace ricordate solo che gli attributi sono tutti all'intero dei _**full_data.**_, quindi andranno richiamati ed utilizzati così come vedete nel codice della scheda di visualizzazione.
 
