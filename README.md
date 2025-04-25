@@ -23,11 +23,13 @@ Il seguente progetto è così articolato:
 
 1. **Descrizione del progetto**
 
-2. **Caratteristiche principali**
+2. **Perchè scegliere questo progetto**
 
-3. **Descrizione del funzionamento**
+3. **Caratteristiche principali**
 
-4. **Installazione**
+4. **Descrizione del funzionamento**
+
+5. **Installazione**
    1. **Prerequisiti**
    1. **Configurazione dei dati da acquisire**
    1. **Configurazione in Home Assistant**
@@ -43,6 +45,36 @@ Scopo principale di questo progetto  è quello di automatizzare l`acquisizione "
 
 Tutte le info sono disponibili sul sito dell'Istituto traime il [S.I.N.A.](https://sinacloud.isprambiente.it/portal/apps/experiencebuilder/experience/?draft=true&id=df677d20871d4383b34ce355e24f0598&page=page_38) (**Sistema Unformativo Nazionale Ambientale**) secondo la [mappa](https://sinacloud.isprambiente.it/portal/apps/experiencebuilder/experience/?draft=true&id=df677d20871d4383b34ce355e24f0598&page=page_62) dove i dati sono disponbili per il [download](https://sinacloud.isprambiente.it/portal/apps/experiencebuilder/experience/?draft=true&id=df677d20871d4383b34ce355e24f0598&page=page_74). 
 
+---
+
+## Perchè scegliere questo progetto
+
+Nel corso degli anni dopo il COVID-19 mi è capitato spesso di vedere ed interessarmi al dato di qualità dell'aria. Un giudizio sintetico che potesse aiutarmi a capire come migliorare il proprio benessere personale anche semplicemente indossando una mascherina prima di uscire di casa, oppure, attivando la microfiltrazione dei climatizzatori moderni all'interno.
+
+Il problema principale è nato dalla diversità dei dati riscontrati anche sui siti più rinomati. Ciò mi ha quindi spinto a cercare una soluzione, ufficiale e diretta, che mi consentisse di ottenere un cado affidabile.
+
+Alcuni esempi prelevati tutti nello stesso specifico momento possono aiutare a capire ciò di cui sto parlando.
+
+Il sito IqAir [IqAir](https://www.iqair.com/air-quality-map):
+Come è possibile rilevare dalla seguente mappa, il sito IqAir espone solo pochissime centraline sul territorio, escludendo, di fatto, molte Regioni italiane. Oltretutto non espone in alcun modo la provenienza dei dati. Nell'esempio che segue, per la città Brindisi viene esposto in valore di "35" che rientra i valori del giudizio "buono":
+
+![iqair1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/iqairCentraline.jpg)
+
+Il sito Google Maps [Gmaps](https://www.google.it/maps/@40.8851745,13.554191,6z/data=!5m1!1e9?hl=it&entry=ttu&g_ep=EgoyMDI1MDQyMi4wIKXMDSoASAFQAw%3D%3D):
+Forse Google Maps riesce a fare ancora peggio, non espone alcuna centralina ma si limita a pubblicare una cartina colorata che, al momento della rilevazione esprime, per la città di Brindisi, un giudizio di "discreta".
+
+![gmaps1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/gmaps1.jpg)![gmaps2](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/gmaps2.jpg)
+
+
+Il sito Waqi [Waqui](https://waqi.info/#/c/5.361/7.189/2.7z):
+Waqi è considerato da molti uno dei siti più affidabili. Anche Waqi come IqAir non espone moltissime centraline in Italia:
+![waqi1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi1.jpg)
+
+ma la situazione più preoccupante è la qualità del dato. Per città fortemente monitorate come Brindisi e Taranto non esistono centraline di monitoraggio attive, mentre per piccoli paesi ne compaiono anche più di dieci: 
+![waqi2](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi2.jpg)
+
+La cosa mi ha incuriosito molto e così ho scoperto la natura e la provenienza dei loro dati:
+![waqi3](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi3.jpg) ![waqi4](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi4.jpg)
 ---
 
 ## Caratteristiche principali
