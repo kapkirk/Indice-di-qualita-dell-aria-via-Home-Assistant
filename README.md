@@ -94,7 +94,7 @@ Così ho scoperto che le centraline adottate da Waqi, denominate "sensor.communi
 
 
 <p align="center">
-  <img align="center" alt="logo" src="images/waqi5.jpg">
+  <img align="center" alt="logo" src="images/waqi5.png">
   <img align="center" alt="logo" src="images/sc1.jpg">
 </p>
 
