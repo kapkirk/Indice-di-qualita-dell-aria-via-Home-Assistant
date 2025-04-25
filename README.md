@@ -2,8 +2,10 @@
 
 # Indice di qualità dell'aria Via Home Assistant 
 
+<p align="center">
+  <img align="center" alt="logo" src="images/HA%20logo2.png">
+</p>
 
-![HomeAssistant](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/HA%20logo2.png)
 ---   
 
 
@@ -55,31 +57,46 @@ Il problema principale è nato dalla diversità dei dati riscontrati anche sui s
 
 Alcuni esempi prelevati tutti nello stesso specifico momento possono aiutare a capire ciò di cui sto parlando.
 
-Il sito IqAir [IqAir](https://www.iqair.com/air-quality-map):
+Il sito [IqAir](https://www.iqair.com/air-quality-map):
 Come è possibile rilevare dalla seguente mappa, il sito IqAir espone solo pochissime centraline sul territorio, escludendo, di fatto, molte Regioni italiane. Oltretutto non espone in alcun modo la provenienza dei dati. Nell'esempio che segue, per la città Brindisi viene esposto in valore di "35" che rientra i valori del giudizio "buono":
 
-![iqair1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/iqairCentraline.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/iqairCentraline.jpg">
+</p>
 
-Il sito Google Maps [Gmaps](https://www.google.it/maps/@40.8851745,13.554191,6z/data=!5m1!1e9?hl=it&entry=ttu&g_ep=EgoyMDI1MDQyMi4wIKXMDSoASAFQAw%3D%3D):
+Il sito [Google Maps](https://www.google.it/maps/@40.8851745,13.554191,6z/data=!5m1!1e9?hl=it&entry=ttu&g_ep=EgoyMDI1MDQyMi4wIKXMDSoASAFQAw%3D%3D):
 Forse Google Maps riesce a fare ancora peggio, non espone alcuna centralina ma si limita a pubblicare una cartina colorata che, al momento della rilevazione esprime, per la città di Brindisi, un giudizio di "discreta".
 
-![gmaps1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/gmaps1.jpg)![gmaps2](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/gmaps2.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/gmaps1.jpg">
+  <img align="center" alt="logo" src="images/gmaps2.jpg">
+</p>
 
 
-Il sito Waqi [Waqui](https://waqi.info/#/c/5.361/7.189/2.7z):
+Il sito [Waqi](https://waqi.info/#/c/5.361/7.189/2.7z):
 Waqi è considerato da molti uno dei siti più affidabili. Anche Waqi come IqAir non espone moltissime centraline in Italia:
-![waqi1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi1.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/waqi1.jpg">
+</p>
+
 
 ma la situazione più preoccupante è la qualità del dato. Per città fortemente monitorate come Brindisi e Taranto non esistono centraline di monitoraggio attive, mentre per piccoli paesi ne compaiono anche più di dieci: 
-![waqi2](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi2.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/waqi2.jpg">
+</p>
 
 La cosa mi ha incuriosito molto, così ho deciso di approfondire il discorso cercando di capire soprattutto come sia possibile che a distanza di 3,5 km possano verificarsi situazioni come quelle che vedete in foto:
-![waqi3](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi3.jpg) ![waqi4](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi4.jpg)
+<p align="center">
+  <img align="center" alt="logo" src="images/waqi3.jpg">
+</p>
 
 Così ho scoperto che le centraline adottate da Waqi, denominate "sensor.community" sono centraline autocostruite con sistemi ESP32 o NodeMcu i cui dati sono messi a disposizione sul loro [sito](https://sensor.community/it/) dedicato e la cui mappa corrisponde perfettamente con quella del sito Waqi:
 
-![waqi2](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/waqi2.jpg)
-![sc1](https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/sc1.jpg)
+
+<p align="center">
+  <img align="center" alt="logo" src="images/waqi5.jpg">
+  <img align="center" alt="logo" src="images/sc1.jpg">
+</p>
 
 
 ---
