@@ -51,21 +51,19 @@ Tutte le info sono disponibili sul sito dell'Istituto traime il [S.I.N.A.](https
 
 ## Perchè scegliere questo progetto
 
-Nel corso degli anni dopo il COVID-19 mi è capitato spesso di vedere ed interessarmi al dato di qualità dell'aria. Un giudizio sintetico che potesse aiutarmi a capire come migliorare il proprio benessere personale anche semplicemente indossando una mascherina prima di uscire di casa, oppure, attivando la microfiltrazione dei climatizzatori moderni all'interno.
+Nel corso degli anni dopo il COVID-19 mi è capitato spesso di vedere ed interessarmi al dato di qualità dell'aria. Un giudizio sintetico che potesse aiutarmi a capire come migliorare il proprio benessere, anche semplicemente indossando una mascherina prima di uscire di casa, oppure, attivando la microfiltrazione dei climatizzatori moderni all'interno di essa.
 
-Il problema principale è nato dalla diversità dei dati riscontrati anche sui siti più rinomati. Ciò mi ha quindi spinto a cercare una soluzione, ufficiale e diretta, che mi consentisse di ottenere un cado affidabile.
+Il problema principale è nato dalla diversità dei dati riscontrati anche sui siti più rinomati. Ciò mi ha quindi spinto a cercare una soluzione, ufficiale e diretta, che mi consentisse di ottenere un dato affidabile ed aggiornato.
 
 Alcuni esempi prelevati tutti nello stesso specifico momento possono aiutare a capire ciò di cui sto parlando.
 
-Il sito [IqAir](https://www.iqair.com/air-quality-map):
-Come è possibile rilevare dalla seguente mappa, il sito IqAir espone solo pochissime centraline sul territorio, escludendo, di fatto, molte Regioni italiane. Oltretutto non espone in alcun modo la provenienza dei dati. Nell'esempio che segue, per la città Brindisi viene esposto in valore di "35" che rientra i valori del giudizio "buono":
+- Come è possibile rilevare dalla seguente mappa, il sito [IqAir](https://www.iqair.com/air-quality-map) espone solo pochissime centraline sul territorio, escludendo di fatto molte Regioni italiane. Oltretutto, non espone in alcun modo la provenienza dei dati. Nell'esempio che segue, per la città Brindisi viene esposto in valore di "35" che rientra nei valori del giudizio europeo "eccellente":
 
 <p align="center">
   <img align="center" alt="logo" src="images/iqairCentraline.jpg">
 </p>
 
-Il sito [Google Maps](https://www.google.it/maps/@40.8851745,13.554191,6z/data=!5m1!1e9?hl=it&entry=ttu&g_ep=EgoyMDI1MDQyMi4wIKXMDSoASAFQAw%3D%3D):
-Forse Google Maps riesce a fare ancora peggio, non espone alcuna centralina ma si limita a pubblicare una cartina colorata che, al momento della rilevazione esprime, per la città di Brindisi, un giudizio di "discreta".
+- Forse [Google Maps](https://www.google.it/maps/@40.8851745,13.554191,6z/data=!5m1!1e9?hl=it&entry=ttu&g_ep=EgoyMDI1MDQyMi4wIKXMDSoASAFQAw%3D%3D) riesce a fare ancora peggio, non espone alcuna centralina ma si limita a pubblicare una cartina colorata che, al momento della rilevazione esprime, per la città di Brindisi, un giudizio di "discreta".
 
 <p align="center">
   <img align="center" alt="logo" src="images/gmaps1.jpg">
@@ -73,24 +71,23 @@ Forse Google Maps riesce a fare ancora peggio, non espone alcuna centralina ma s
 </p>
 
 
-Il sito [Waqi](https://waqi.info/#/c/5.361/7.189/2.7z):
-Waqi è considerato da molti uno dei siti più affidabili. Anche Waqi come IqAir non espone moltissime centraline in Italia:
+- [Waqi](https://waqi.info/#/c/5.361/7.189/2.7z) è considerato da molti uno dei siti più affidabili. Anche Waqi come IqAir non espone moltissime centraline in Italia:
 <p align="center">
   <img align="center" alt="logo" src="images/waqi1.jpg">
 </p>
 
 
-ma la situazione più preoccupante è la qualità del dato. Per città fortemente monitorate come Brindisi e Taranto non esistono centraline di monitoraggio attive, mentre per piccoli paesi ne compaiono anche più di dieci: 
+ma la situazione più preoccupante è la qualità del dato. Per città fortemente espsote agli inquinanti e monitorate sia pubblicamente che privatamente, come Brindisi e Taranto, non dispongono di dati, mentre, per piccoli paesi della provincia leccese ne compaiono anche più di dieci: 
 <p align="center">
   <img align="center" alt="logo" src="images/waqi2.jpg">
 </p>
 
-La cosa mi ha incuriosito molto, così ho deciso di approfondire il discorso cercando di capire soprattutto come sia possibile che a distanza di 3,5 km possano verificarsi situazioni come quelle che vedete in foto:
+La cosa mi ha incuriosito molto, così ho deciso di approfondire il discorso cercando di capire soprattutto come sia possibile che a distanza di 3,5 km possano verificarsi situazioni come quelle che vedete di seguito:
 <p align="center">
   <img align="center" alt="logo" src="images/waqi3.jpg">
 </p>
 
-Così ho scoperto che le centraline adottate da Waqi, denominate "sensor.community" sono centraline autocostruite con sistemi ESP32 o NodeMcu i cui dati sono messi a disposizione sul loro [sito](https://sensor.community/it/) dedicato e la cui mappa corrisponde perfettamente con quella del sito Waqi:
+Così ho scoperto che le centraline adottate da Waqi, denominate **_"sensor.community"_** sono centraline autocostruite, con sistemi ESP32 o NodeMcu, i cui dati sono messi a disposizione sul loro [sito](https://sensor.community/it/) dedicato e la cui mappa corrisponde perfettamente con quella del sito Waqi:
 
 
 <p align="center">
@@ -98,7 +95,31 @@ Così ho scoperto che le centraline adottate da Waqi, denominate "sensor.communi
   <img align="center" alt="logo" src="images/sc1.jpg">
 </p>
 
+In conclusione, quindi, sono andato alla ricerca dei dati ufficiali scoprendo che i dati acquisiti dalle ARPA regionali mediante le centraline installate sul territorio, sono pubblicati con cadenza giornaliera ed aggiornati al giorno precedente. Essi sono inoltre "filtrati". Ecco il link ai progetti per la Puglia da me realizzati:
 
+- [Implementazione in Home Assistant tramite Node-RED](https://github.com/kapkirk/Dati-ambientali-ARPA-Puglia-via-Home-Assistant-e-NodeRED)
+- [Implementazione in Home Assistant tramite Node-RED ed MQTT](https://github.com/kapkirk/Dati-ambientali-ARPA-Puglia-via-Home-Assistant)
+
+I dati delle ARPA Regionali vengono però inviati con cadenza oraria all'ISPRA che li pubblica, come li definiscono loro, in "quasi tempo reale" e senza alcuna preventiva filtrazione:
+
+<p align="center">
+  <img align="center" alt="logo" src="images/ispra.jpg">
+</p>
+
+Ecco spiegata la natura di questo progetto: ottenere un dato di qualità dell'aria basato su dati concreti, reali ed affidabili in tempo reale!
+
+Nella prima scheda che utilizzo in HA, questi dati, mediante schede a scomparsa, oltre a visualizzare il dato sintetito di qualità dell'aria unitamente altri di mio interesse:
+
+<p align="center">
+  <img align="center" alt="logo" src="images/lovelace1.jpg">
+  <img align="center" alt="logo" src="images/lovelace2.jpg">
+</p>
+
+mi cosente di ricevere un alert, sulla stessa maschera, quando uno degli inquinanti supera il livello massimo previsto:
+
+<p align="center">
+  <img align="center" alt="logo" src="images/lovelace3.jpg">
+</p>
 ---
 
 ## Caratteristiche principali
