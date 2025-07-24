@@ -12,6 +12,6 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: HACS validation
-        uses: "hacs/action@1.0.0."
+        uses: "hacs/action@1.0.0"
         with:
           category: "python_script"
