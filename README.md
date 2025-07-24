@@ -60,39 +60,39 @@ Alcuni esempi prelevati tutti nello stesso specifico momento possono aiutare a c
 - Come è possibile rilevare dalla seguente mappa, il sito [IqAir](https://www.iqair.com/air-quality-map) espone solo pochissime centraline sul territorio, escludendo di fatto molte Regioni italiane. Oltretutto, non espone in alcun modo la provenienza dei dati. Nell'esempio che segue, per la città Brindisi viene esposto in valore di "35" che rientra nei valori del giudizio europeo "eccellente":
 
 <p align="center">
-  <img align="center" alt="logo" src="images/iqairCentraline.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/iqairCentraline.jpg">
 </p>
 
 - Forse [Google Maps](https://www.google.it/maps/@40.8851745,13.554191,6z/data=!5m1!1e9?hl=it&entry=ttu&g_ep=EgoyMDI1MDQyMi4wIKXMDSoASAFQAw%3D%3D) riesce a fare ancora peggio, non espone alcuna centralina ma si limita a pubblicare una cartina colorata che, al momento della rilevazione esprime, per la città di Brindisi, un giudizio di "discreta".
 
 <p align="center">
-  <img align="center" alt="logo" src="images/gmaps1.jpg">
-  <img align="center" alt="logo" src="images/gmaps2.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/gmaps1.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/gmaps2.jpg">
 </p>
 
 
 - [Waqi](https://waqi.info/#/c/5.361/7.189/2.7z) è considerato da molti uno dei siti più affidabili. Anche Waqi come IqAir non espone moltissime centraline in Italia:
 <p align="center">
-  <img align="center" alt="logo" src="images/waqi1.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/waqi1.jpg">
 </p>
 
 
 ma la situazione più preoccupante è la qualità del dato. Per città fortemente espsote agli inquinanti e monitorate sia pubblicamente che privatamente, come Brindisi e Taranto, non dispongono di dati, mentre, per piccoli paesi della provincia leccese ne compaiono anche più di dieci: 
 <p align="center">
-  <img align="center" alt="logo" src="images/waqi2.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/waqi2.jpg">
 </p>
 
 La cosa mi ha incuriosito molto, così ho deciso di approfondire il discorso cercando di capire soprattutto come sia possibile che a distanza di 3,5 km possano verificarsi situazioni come quelle che vedete di seguito:
 <p align="center">
-  <img align="center" alt="logo" src="images/waqi3.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/waqi3.jpg">
 </p>
 
 Così ho scoperto che le centraline adottate da Waqi, denominate **_"sensor.community"_** sono centraline autocostruite, con sistemi ESP32 o NodeMcu, i cui dati sono messi a disposizione sul loro [sito](https://sensor.community/it/) dedicato e la cui mappa corrisponde perfettamente con quella del sito Waqi:
 
 
 <p align="center">
-  <img align="center" alt="logo" src="images/waqi5.png">
-  <img align="center" alt="logo" src="images/sc1.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/waqi5.png">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/sc1.jpg">
 </p>
 
 In conclusione, quindi, sono andato alla ricerca dei dati ufficiali scoprendo che i dati acquisiti dalle ARPA regionali mediante le centraline installate sul territorio, sono pubblicati con cadenza giornaliera ed aggiornati al giorno precedente. Essi sono inoltre "filtrati". Ecco il link ai progetti per la Puglia da me realizzati:
@@ -103,7 +103,7 @@ In conclusione, quindi, sono andato alla ricerca dei dati ufficiali scoprendo ch
 I dati delle ARPA Regionali vengono però inviati con cadenza oraria all'ISPRA che li pubblica, come li definiscono loro, in "quasi tempo reale" e senza alcuna preventiva filtrazione:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/ispra.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/ispra.jpg">
 </p>
 
 Ecco spiegata la natura di questo progetto: ottenere un dato di qualità dell'aria basato su dati concreti, reali ed affidabili in tempo reale!
@@ -111,14 +111,14 @@ Ecco spiegata la natura di questo progetto: ottenere un dato di qualità dell'ar
 Nella prima scheda che utilizzo in HA, questi dati, mediante schede a scomparsa, oltre a visualizzare il dato sintetito di qualità dell'aria unitamente altri di mio interesse:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/lovelace1.jpg">
-  <img align="center" alt="logo" src="images/lovelace2.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/lovelace1.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/lovelace2.jpg">
 </p>
 
 mi cosente di ricevere un alert, sulla stessa maschera, quando uno degli inquinanti supera il livello massimo previsto:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/lovelace3.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/lovelace3.jpg">
 </p>
 ---
 
@@ -370,14 +370,14 @@ Dato aver copiato tutti i files, oppure prima di farlo se preferite, passiamo al
 - Aprite con l'editor il file che ora sarà presente nella cartella **_packages_** denominato **_`pkg_ispra.yaml`_**. Nella sezione _**`setting`**_ del file inserite i link per scaricare gli inquinanti ottenuti come indicati sopra, esattamente qui:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/modifica_pkg.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/modifica_pkg.jpg">
 </p>
 
 
 - Aprite con l'editor il file nella cartella **_python_scripts_** denominato **_`ispra.py`_**. All'interno di esso potrete distinguere una sezione per ogni inquinante. Nella prima riga di ogni inquinante dovrete inserire il codice europeo della stazione acquisito come sopra descritto, esattamente qui:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/modifica_py.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/modifica_py.jpg">
 </p>
 
 La personalizzazione del codice è terminata.
@@ -389,13 +389,13 @@ Il codice sopra inserito, dopo il riavvio di HA ed il primo aggiornamento dei se
 - Sette sensori, uno per ogni inquinante (sensor.co_ispra, sensor.so2_ispra, sensor.c6h6_ispra, sensor.pm10_ispra, sensor.pm25_ispra, sensor.o3_ispra, sensor.no2_ispra):
 
 <p align="center">
-  <img align="center" alt="logo" src="images/Sensore_inquinante.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/Sensore_inquinante.jpg">
 </p>
 
 - un sensore che indicherà un giudizio sintetico sulla qualità dell'aria (sensor.aqi_ispra):
 
  <p align="center">
-  <img align="center" alt="logo" src="images/Sensore_aqi.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/Sensore_aqi.jpg">
 </p>
   
 - un pulsante per l'aggiornamento manuale dei dati (input_button.ispra_update);
@@ -407,7 +407,7 @@ I sensori sono stati creati e possiamo dunque configurare la scheda Lovelace per
 - Nella _Dashbord_ della _lovelace_, dove preferite, aprite una nuova scheda ed incollate il codice del file `HA lovelace dati.txt` ed il risultato sarà questo:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/HA_lovelace_dati.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/HA_lovelace_dati.jpg">
 </p>
 
 codice:
@@ -440,7 +440,7 @@ grid_options:
 - Mentre, il sensore con il giudizio di qualità dell'aria  _`sensor.aqi_ispra`_ nella _lovelace_ lo visualizzo come segue:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/HA_lovelace_aqi.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/HA_lovelace_aqi.jpg">
 </p>
 
   aprite una nuova scheda ed incollate il codice del file `HA lovelace aqi.txt` ed il risultato sarà questo:
@@ -467,7 +467,7 @@ grid_options:
 Il risultato finale sarà il saeguente:
 
 <p align="center">
-  <img align="center" alt="logo" src="images/lovelace_complessiva.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/lovelace_complessiva.jpg">
 </p>
 
 Ovviamente, avendo a disposizione tutti i dati che costituiscono il sensore, potrete utilizzarli per esporre ciò che più vi piace ricordate solo che gli attributi sono tutti all'intero dei _**full_data.**_, quindi andranno richiamati ed utilizzati così come vedete nel codice della scheda di visualizzazione.
