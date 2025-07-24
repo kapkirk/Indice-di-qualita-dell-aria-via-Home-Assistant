@@ -3,7 +3,7 @@
 # Indice di qualità dell'aria Via Home Assistant 
 
 <p align="center">
-  <img align="center" alt="logo" src="https://github.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/34361395535f57a7ba78b966637a5dfbe834c519/images/HA%20logo2.png">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/HA%20logo2.png">
 </p>
 
 ---   
