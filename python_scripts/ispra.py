@@ -33,7 +33,7 @@ def process_c6h6():
                     if row.get('station_eu_code') == station_code:
                         records.append({
                             'time': row['data_record_end_time'],
-                            'value': float(row['data_record_value']),
+                            'value': float(row['data_record_value'] or 0),
                             'row': row
                         })
                 except (KeyError, ValueError) as e:
@@ -77,7 +77,7 @@ def process_co():
                     if row.get('station_eu_code') == station_code:
                         records.append({
                             'time': row['data_record_end_time'],
-                            'value': float(row['data_record_value']),
+                            'value': float(row['data_record_value'] or 0),
                             'row': row
                         })
                 except (KeyError, ValueError) as e:
@@ -110,7 +110,7 @@ def process_no2():
     try:
         station_code = sys.argv[1] if len(sys.argv) > 1 else 'IT1658A'
         # Attenzione: il file CSV di default è lo stesso del CO, come nello script originale.
-        csv_file = sys.argv[2] if len(sys.argv) > 2 else '/config/dati_ispra/co_data.csv'
+        csv_file = sys.argv[2] if len(sys.argv) > 2 else '/config/dati_ispra/no2_data.csv'
         logger.info(f"[NO2] Processing station: {station_code}")
 
         with open(csv_file, mode='r', encoding='utf-8') as f:
@@ -122,7 +122,7 @@ def process_no2():
                     if row.get('station_eu_code') == station_code:
                         records.append({
                             'time': row['data_record_end_time'],
-                            'value': float(row['data_record_value']),
+                            'value': float(row['data_record_value'] or 0),
                             'row': row
                         })
                 except (KeyError, ValueError) as e:
@@ -166,7 +166,7 @@ def process_o3():
                     if row.get('station_eu_code') == station_code:
                         records.append({
                             'time': row['data_record_end_time'],
-                            'value': float(row['data_record_value']),
+                            'value': float(row['data_record_value'] or 0),
                             'row': row
                         })
                 except (KeyError, ValueError) as e:
@@ -210,7 +210,7 @@ def process_pm10():
                     if row.get('station_eu_code') == station_code:
                         records.append({
                             'time': row['data_record_end_time'],
-                            'value': float(row['data_record_value']),
+                            'value': float(row['data_record_value'] or 0),
                             'row': row
                         })
                 except (KeyError, ValueError) as e:
@@ -254,7 +254,7 @@ def process_pm25():
                     if row.get('station_eu_code') == station_code:
                         records.append({
                             'time': row['data_record_end_time'],
-                            'value': float(row['data_record_value']),
+                            'value': float(row['data_record_value'] or 0),
                             'row': row
                         })
                 except (KeyError, ValueError) as e:
@@ -298,7 +298,7 @@ def process_so2():
                     if row.get('station_eu_code') == station_code:
                         records.append({
                             'time': row['data_record_end_time'],
-                            'value': float(row['data_record_value']),
+                            'value': float(row['data_record_value'] or 0),
                             'row': row
                         })
                 except (KeyError, ValueError) as e:
