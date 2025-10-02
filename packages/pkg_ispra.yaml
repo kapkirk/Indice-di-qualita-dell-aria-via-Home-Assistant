@@ -120,11 +120,12 @@ command_line:
 #                                                  #
 ####################################################
 
-template:
-  - sensor:
-      - name: "aqi_ispra"
-        unique_id: qualita_aria_ispra
-        state: >
+sensor:
+  - platform: template
+    sensors:
+      aqi_ispra:
+        friendly_name: qualita_aria_ispra
+        value_template: >
           {% set pm10 = state_attr('sensor.pm10_ispra', 'full_data') %}
           {% set pm25 = state_attr('sensor.pm25_ispra', 'full_data') %}
           {% set co = state_attr('sensor.co_ispra', 'full_data') %}
@@ -149,7 +150,8 @@ template:
               '5': 'buona',
               '4': 'discreta',
               '3': 'sufficiente',
-              '2': 'scarsa'
+              '2': 'scarsa',
+              "1": 'pessima'
             } %}
             {{ classi[valore_peggiore | string] if valore_peggiore|string in classi else 'non disponibile' }}
           {% else %}
