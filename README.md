@@ -531,6 +531,10 @@ cards:
         features_position: bottom
 ```
 
+Inoltre sarà possiible definire altri gauge per ogni singolo sensore, oppure, raggrupparli secondo analogie come ho fatto io:
+<p align="center">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/modern_circular_gauge_singoli.jpg">
+</p>
 
 Il risultato finale sarà il saeguente:
 
