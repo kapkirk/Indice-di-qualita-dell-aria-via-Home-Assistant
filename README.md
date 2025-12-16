@@ -167,7 +167,8 @@ mi cosente di ricevere un alert, sulla stessa maschera, quando uno degli inquina
       ```
 
 - HACS installato e configurato con i seguenti pacchetti installati:
-  - la custom  `flex-table-card` (Se volete utilizzare la tabella di visualizzazione come ho fatto io).
+  - la custom  `flex-table-card` (Se volete utilizzare la tabella di visualizzazione come ho fatto io);
+  - la custom `Modern Circular Gauge` (Se volete utilizzare i gauge per la visualizzazione come ho fatto io);
 
 
 
@@ -407,8 +408,9 @@ I sensori sono stati creati e possiamo dunque configurare la scheda Lovelace per
 - Nella _Dashbord_ della _lovelace_, dove preferite, aprite una nuova scheda ed incollate il codice del file `HA lovelace dati.txt` ed il risultato sarà questo:
 
 <p align="center">
-  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/HA_lovelace_dati.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/Tabella.jpg">
 </p>
+
 
 codice:
 ```yaml
@@ -440,34 +442,104 @@ grid_options:
 - Mentre, il sensore con il giudizio di qualità dell'aria  _`sensor.aqi_ispra`_ nella _lovelace_ lo visualizzo come segue:
 
 <p align="center">
-  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/HA_lovelace_aqi.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/modern_circular_gauge.jpg">
 </p>
 
   aprite una nuova scheda ed incollate il codice del file `HA lovelace aqi.txt` ed il risultato sarà questo:
 
 codice:
 ```yaml
-type: tile
-entity: sensor.aqi
-features_position: bottom
-vertical: false
-name: Qualità dell'Aria
-icon: mdi:air-filter
-color: primary
-tap_action:
-  action: none
-icon_tap_action:
-  action: none
-grid_options:
-  columns: 10
-  rows: 1
+type: custom:vertical-stack-in-card
+cards:
+  - type: custom:modern-circular-gauge
+    entity: sensor.iqa
+    unit: null
+    name: IQA
+    icon: mdi:liquid-spot
+    gauge_foreground_style:
+      color: adaptive
+      width: 10
+      opacity: 1
+    gauge_background_style:
+      color: adaptive
+      width: 10
+    min: 0
+    smooth_segments: true
+    adaptive_icon_color: true
+    segments:
+      - from: 0
+        color: green
+      - from: 51
+        color: yellow
+      - from: 151
+        color: orange
+      - from: 201
+        color: red
+      - from: 301
+        color: purple
+    tertiary: {}
+    start_from_zero: false
+    adaptive_state_color: true
+    show_seconds: true
+    secondary: {}
+    attribute: iqa_peggiore
+    max: 300
+    needle: false
+    show_state: true
+    adaptive_label_color: true
+    inverted_mode: false
+    show_in_graph: true
+    show_unit: true
+    adaptive_graph_range: false
+    header_position: bottom
+    show_header: true
+    show_icon: true
+    show_entity_picture: false
+    gauge_type: standard
+    grid_options:
+      columns: 15
+      rows: 4
+  - type: horizontal-stack
+    cards:
+      - type: tile
+        grid_options:
+          columns: 6
+          rows: 1
+        entity: sensor.iqa
+        name: Indice Qualità Aria
+        icon: mdi:air-filter
+        color: primary
+        vertical: false
+        tap_action:
+          action: none
+        icon_tap_action:
+          action: none
+        features_position: bottom
+      - type: tile
+        grid_options:
+          columns: 6
+          rows: 1
+        entity: sensor.aqi_ispra
+        name: Qualità dell'Aria
+        icon: mdi:air-filter
+        color: primary
+        vertical: false
+        tap_action:
+          action: none
+        icon_tap_action:
+          action: none
+        features_position: bottom
 ```
 
+Inoltre sarà possiible definire altri gauge per ogni singolo sensore, oppure, raggrupparli secondo analogie come ho fatto io:
+<p align="center">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/modern_circular_gauge_singoli.jpg">
+</p>
 
-Il risultato finale sarà il saeguente:
+Il risultato finale, in una visulizzazione su telefono, sarà il saeguente:
 
 <p align="center">
-  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/lovelace_complessiva.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/lovelace_tel.jpg">
 </p>
 
 Ovviamente, avendo a disposizione tutti i dati che costituiscono il sensore, potrete utilizzarli per esporre ciò che più vi piace ricordate solo che gli attributi sono tutti all'intero dei _**full_data.**_, quindi andranno richiamati ed utilizzati così come vedete nel codice della scheda di visualizzazione.

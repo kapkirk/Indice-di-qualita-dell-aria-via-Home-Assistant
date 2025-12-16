@@ -38,8 +38,8 @@ shell_command:
 
 command_line:
   - sensor:
-      name: "co_ispra"
-      unique_id: "co_ispra"
+      name: "co_raw"
+      unique_id: "co_raw"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.CO.value }}'
       state_class: measurement
@@ -48,9 +48,10 @@ command_line:
         - full_data
       scan_interval: 3600
 
+
   - sensor:
-      name: "so2_ispra"
-      unique_id: "so2_ispra"
+      name: "so2_raw"
+      unique_id: "so2_raw"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.SO2.value }}'
       state_class: measurement
@@ -60,8 +61,8 @@ command_line:
       scan_interval: 3600
 
   - sensor:
-      name: "c6h6_ispra"
-      unique_id: "c6h6_ispra"
+      name: "c6h6_raw"
+      unique_id: "c6h6_raw"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.C6H6.value }}'
       state_class: measurement
@@ -71,8 +72,8 @@ command_line:
       scan_interval: 3600
 
   - sensor:
-      name: "pm10_ispra"
-      unique_id: "pm10_ispra"
+      name: "pm10_raw"
+      unique_id: "pm10_raw"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.PM10.value }}'
       state_class: measurement
@@ -82,8 +83,8 @@ command_line:
       scan_interval: 3600
 
   - sensor:
-      name: "pm25_ispra"
-      unique_id: "pm25_ispra"
+      name: "pm25_raw"
+      unique_id: "pm25_raw"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.PM25.value }}'
       state_class: measurement
@@ -93,8 +94,8 @@ command_line:
       scan_interval: 3600
 
   - sensor:
-      name: "o3_ispra"
-      unique_id: "o3_ispra"
+      name: "o3_raw"
+      unique_id: "o3_raw"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.O3.value }}'
       state_class: measurement
@@ -104,8 +105,8 @@ command_line:
       scan_interval: 3600
 
   - sensor:
-      name: "no2_ispra"
-      unique_id: "no2_ispra"
+      name: "no2_raw"
+      unique_id: "no2_raw"
       command: 'python3 /config/python_scripts/ispra.py'
       value_template: '{{ value_json.NO2.value }}'
       state_class: measurement
@@ -120,19 +121,18 @@ command_line:
 #                                                  #
 ####################################################
 
-sensor:
-  - platform: template
-    sensors:
-      aqi_ispra:
-        friendly_name: qualita_aria_ispra
-        value_template: >
-          {% set pm10 = state_attr('sensor.pm10_ispra', 'full_data') %}
-          {% set pm25 = state_attr('sensor.pm25_ispra', 'full_data') %}
-          {% set co = state_attr('sensor.co_ispra', 'full_data') %}
-          {% set c6h6 = state_attr('sensor.c6h6_ispra', 'full_data') %}
-          {% set no2 = state_attr('sensor.no2_ispra', 'full_data') %}
-          {% set so2 = state_attr('sensor.so2_ispra', 'full_data') %}
-          {% set o3 = state_attr('sensor.o3_ispra', 'full_data') %}
+template:
+- sensor:
+  - default_entity_id: sensor.aqi_ispra
+    name: qualita_aria_ispra
+    state: >
+          {% set pm10 = state_attr('sensor.pm10_raw', 'full_data') %}
+          {% set pm25 = state_attr('sensor.pm25_raw', 'full_data') %}
+          {% set co = state_attr('sensor.co_raw', 'full_data') %}
+          {% set c6h6 = state_attr('sensor.c6h6_raw', 'full_data') %}
+          {% set no2 = state_attr('sensor.no2_raw', 'full_data') %}
+          {% set so2 = state_attr('sensor.so2_raw', 'full_data') %}
+          {% set o3 = state_attr('sensor.o3_raw', 'full_data') %}
 
           {% set valori_numerici = [] %}
           {% if pm10 and pm10.pollutant_level and pm10.pollutant_level|int > 0 %} {% set valori_numerici = valori_numerici + [pm10.pollutant_level|int] %} {% endif %}
@@ -157,6 +157,351 @@ sensor:
           {% else %}
             non disponibile
           {% endif %}
+
+  - default_entity_id: sensor.iqa
+    name: indice_qualita_aria
+    state: >
+        {% set pm10  = states('sensor.pm10_iqa')|int(0) %}
+        {% set pm25  = states('sensor.pm25_iqa')|int(0) %}
+        {% set co    = states('sensor.co_iqa')|int(0) %}
+        {% set c6h6  = states('sensor.c6h6_iqa')|int(0) %}
+        {% set no2   = states('sensor.no2_iqa')|int(0) %}
+        {% set so2   = states('sensor.so2_iqa')|int(0) %}
+        {% set o3    = states('sensor.o3_iqa')|int(0) %}
+    
+        {% set valori_numerici = [] %}
+        {% if pm10  > 0 %}{% set valori_numerici = valori_numerici + [pm10]  %}{% endif %}
+        {% if pm25  > 0 %}{% set valori_numerici = valori_numerici + [pm25]  %}{% endif %}
+        {% if co    > 0 %}{% set valori_numerici = valori_numerici + [co]    %}{% endif %}
+        {% if c6h6  > 0 %}{% set valori_numerici = valori_numerici + [c6h6]  %}{% endif %}
+        {% if no2   > 0 %}{% set valori_numerici = valori_numerici + [no2]   %}{% endif %}
+        {% if so2   > 0 %}{% set valori_numerici = valori_numerici + [so2]   %}{% endif %}
+        {% if o3    > 0 %}{% set valori_numerici = valori_numerici + [o3]    %}{% endif %}
+    
+        {% if valori_numerici %}
+          {% set valore_peggiore = valori_numerici|max %}
+          {% if valore_peggiore < 30 %}
+            Ottimo
+          {% elif 31 <= valore_peggiore <= 66 %}
+            Buono
+          {% elif 67 <= valore_peggiore <= 99 %}
+            Discreto
+          {% elif 100 <= valore_peggiore <= 150 %}
+            Scadente
+          {% elif valore_peggiore > 150 %}
+            Pessimo
+          {% else %}
+            non disponibile
+          {% endif %}
+        {% else %}
+          non disponibile
+        {% endif %}
+    attributes:
+      pm10_iqa: "{{ states('sensor.pm10_iqa') }}"
+      pm25_iqa: "{{ states('sensor.pm25_iqa') }}"
+      co_iqa: "{{ states('sensor.co_iqa') }}"
+      c6h6_iqa: "{{ states('sensor.c6h6_iqa') }}"
+      no2_iqa: "{{ states('sensor.no2_iqa') }}"
+      so2_iqa: "{{ states('sensor.so2_iqa') }}"
+      o3_iqa: "{{ states('sensor.o3_iqa') }}"
+      iqa_peggiore: >
+          {% set valori = [
+            states('sensor.pm10_iqa')|int(0),
+            states('sensor.pm25_iqa')|int(0),
+            states('sensor.co_iqa')|int(0),
+            states('sensor.c6h6_iqa')|int(0),
+            states('sensor.no2_iqa')|int(0),
+            states('sensor.so2_iqa')|int(0),
+            states('sensor.o3_iqa')|int(0)
+          ] %}
+          {% set valori_filtrati = valori | select('gt', 0) | list %}
+          {% if valori_filtrati %}
+            {{ valori_filtrati | max }}
+          {% else %}
+            0
+          {% endif %}
+
+  - default_entity_id: sensor.co_ispra
+    name: co_ispra
+    state: "{{ states('sensor.co_raw') }}"
+    state_class: measurement
+    attributes:
+      limite: 10
+
+  - default_entity_id: sensor.pm10_ispra
+    name: pm10_ispra
+    state: "{{ states('sensor.pm10_raw') }}"
+    state_class: measurement
+    attributes:
+      limite: 50
+
+  - default_entity_id: sensor.pm25_ispra
+    name: pm25_ispra
+    state: "{{ states('sensor.pm25_raw') }}"
+    state_class: measurement
+    attributes:
+      limite: 25
+
+  - default_entity_id: sensor.so2_ispra
+    name: so2_ispra
+    state: "{{ states('sensor.so2_raw') }}"
+    state_class: measurement
+    attributes:
+      limite: 350
+
+  - default_entity_id: sensor.no2_ispra
+    name: no2_ispra
+    state: "{{ states('sensor.no2_raw') }}"
+    state_class: measurement
+    attributes:
+      limite: 200
+     
+  - default_entity_id: sensor.c6h6_ispra
+    name: c6h6_ispra
+    state: "{{ states('sensor.c6h6_raw') }}"
+    state_class: measurement
+    attributes:
+      limite: 5
+
+  - default_entity_id: sensor.o3_ispra
+    name: o3_ispra
+    state: "{{ states('sensor.o3_raw') }}"
+    state_class: measurement
+    attributes:
+      limite: 180
+
+ 
+  - default_entity_id: sensor.co_iqa
+    name: co_iqa
+    state: "{{ (((states('sensor.co_ispra') | float) / (state_attr('sensor.co_ispra', 'limite') | float)) * 100) | round(0) }}"
+    state_class: measurement
+    attributes:
+        descrizione_livello_iqa: >
+            {% set v = (((states('sensor.co_ispra') | float) /
+                        (state_attr('sensor.co_ispra', 'limite') | float)) * 100) | round(0) %}
+            {% if v < 30 %}
+              Ottimo
+            {% elif 31 <= v <= 66 %}
+              Buono
+            {% elif 67 <= v <= 99 %}
+              Discreto
+            {% elif 100 <= v <= 150 %}
+              Scadente
+            {% elif v > 150 %}
+              Pessimo
+            {% else %}
+              non disponibile
+            {% endif %}
+         
+  - default_entity_id: sensor.pm10_iqa
+    name: pm10_iqa
+    state: "{{ (((states('sensor.pm10_ispra') | float) / (state_attr('sensor.pm10_ispra', 'limite') | float)) * 100) | round(0) }}"
+    state_class: measurement
+    attributes:
+        descrizione_livello_iqa: >
+            {% set v = (((states('sensor.pm10_ispra') | float) /
+                        (state_attr('sensor.pm10_ispra', 'limite') | float)) * 100) | round(0) %}
+            {% if v < 30 %}
+              Ottimo
+            {% elif 31 <= v <= 66 %}
+              Buono
+            {% elif 67 <= v <= 99 %}
+              Discreto
+            {% elif 100 <= v <= 150 %}
+              Scadente
+            {% elif v > 150 %}
+              Pessimo
+            {% else %}
+              non disponibile
+            {% endif %}
+
+  - default_entity_id: sensor.pm25_iqa
+    name: pm25_iqa
+    state: "{{ (((states('sensor.pm25_ispra') | float) / (state_attr('sensor.pm25_ispra', 'limite') | float)) * 100) | round(0) }}"
+    state_class: measurement
+    attributes:
+        descrizione_livello_iqa: >
+            {% set v = (((states('sensor.pm25_ispra') | float) /
+                        (state_attr('sensor.pm25_ispra', 'limite') | float)) * 100) | round(0) %}
+            {% if v < 30 %}
+              Ottimo
+            {% elif 31 <= v <= 66 %}
+              Buono
+            {% elif 67 <= v <= 99 %}
+              Discreto
+            {% elif 100 <= v <= 150 %}
+              Scadente
+            {% elif v > 150 %}
+              Pessimo
+            {% else %}
+              non disponibile
+            {% endif %}
+
+  - default_entity_id: sensor.so2_iqa
+    name: so2_iqa
+    state: "{{ (((states('sensor.so2_ispra') | float) / (state_attr('sensor.so2_ispra', 'limite') | float)) * 100) | round(0) }}"
+    state_class: measurement
+    attributes:
+        descrizione_livello_iqa: >
+            {% set v = (((states('sensor.so2_ispra') | float) /
+                        (state_attr('sensor.so2_ispra', 'limite') | float)) * 100) | round(0) %}
+            {% if v < 30 %}
+              Ottimo
+            {% elif 31 <= v <= 66 %}
+              Buono
+            {% elif 67 <= v <= 99 %}
+              Discreto
+            {% elif 100 <= v <= 150 %}
+              Scadente
+            {% elif v > 150 %}
+              Pessimo
+            {% else %}
+              non disponibile
+            {% endif %}
+
+  - default_entity_id: sensor.no2_iqa
+    name: no2_iqa
+    state: "{{ (((states('sensor.no2_ispra') | float) / (state_attr('sensor.no2_ispra', 'limite') | float)) * 100) | round(0) }}"
+    state_class: measurement
+    attributes:
+        descrizione_livello_iqa: >
+            {% set v = (((states('sensor.no2_ispra') | float) /
+                        (state_attr('sensor.no2_ispra', 'limite') | float)) * 100) | round(0) %}
+            {% if v < 30 %}
+              Ottimo
+            {% elif 31 <= v <= 66 %}
+              Buono
+            {% elif 67 <= v <= 99 %}
+              Discreto
+            {% elif 100 <= v <= 150 %}
+              Scadente
+            {% elif v > 150 %}
+              Pessimo
+            {% else %}
+              non disponibile
+            {% endif %}
+
+  - default_entity_id: sensor.c6h6_iqa
+    name: c6h6_iqa
+    state: "{{ (((states('sensor.c6h6_ispra') | float) / (state_attr('sensor.c6h6_ispra', 'limite') | float)) * 100) | round(0) }}"
+    state_class: measurement
+    attributes:
+        descrizione_livello_iqa: >
+            {% set v = (((states('sensor.c6h6_ispra') | float) /
+                        (state_attr('sensor.c6h6_ispra', 'limite') | float)) * 100) | round(0) %}
+            {% if v < 30 %}
+              Ottimo
+            {% elif 31 <= v <= 66 %}
+              Buono
+            {% elif 67 <= v <= 99 %}
+              Discreto
+            {% elif 100 <= v <= 150 %}
+              Scadente
+            {% elif v > 150 %}
+              Pessimo
+            {% else %}
+              non disponibile
+            {% endif %}
+
+  - default_entity_id: sensor.o3_iqa
+    name: o3_iqa
+    state: "{{ (((states('sensor.o3_ispra') | float) / (state_attr('sensor.o3_ispra', 'limite') | float)) * 100) | round(0) }}"
+    state_class: measurement
+    attributes:
+        descrizione_livello_iqa: >
+            {% set v = (((states('sensor.o3_ispra') | float) /
+                        (state_attr('sensor.o3_ispra', 'limite') | float)) * 100) | round(0) %}
+            {% if v < 30 %}
+              Ottimo
+            {% elif 31 <= v <= 66 %}
+              Buono
+            {% elif 67 <= v <= 99 %}
+              Discreto
+            {% elif 100 <= v <= 150 %}
+              Scadente
+            {% elif v > 150 %}
+              Pessimo
+            {% else %}
+              non disponibile
+            {% endif %}
+
+  - default_entity_id: sensor.co
+    name: co
+    state: "{{ states('sensor.co_raw') }}"
+    state_class: measurement
+    attributes:
+      valore: "{{ states('sensor.co_raw') }}"
+      limite: 10
+      IQA: "{{ states.sensor.co_iqa.state }}"
+      Descrizione_IQA: "{{state_attr('sensor.co_iqa', 'descrizione_livello_iqa') }}"
+      Info_complete: "{{ state_attr('sensor.co_raw', 'full_data') }}"
+
+  - default_entity_id: sensor.pm10
+    name: pm10
+    state: "{{ states('sensor.pm10_raw') }}"
+    state_class: measurement
+    attributes:
+      valore: "{{ states('sensor.pm10_raw') }}"
+      limite: 50
+      IQA: "{{ states.sensor.pm10_iqa.state }}"
+      Descrizione_IQA: "{{state_attr('sensor.pm10_iqa', 'descrizione_livello_iqa') }}"
+      Info_complete: "{{ state_attr('sensor.pm10_raw', 'full_data') }}"
+
+  - default_entity_id: sensor.pm25
+    name: pm25
+    state: "{{ states('sensor.pm25_raw') }}"
+    state_class: measurement
+    attributes:
+      valore: "{{ states('sensor.pm25_raw') }}"
+      limite: 25
+      IQA: "{{ states.sensor.pm25_iqa.state }}"
+      Descrizione_IQA: "{{state_attr('sensor.pm25_iqa', 'descrizione_livello_iqa') }}"
+      Info_complete: "{{ state_attr('sensor.pm25_raw', 'full_data') }}"
+
+  - default_entity_id: sensor.so2
+    name: so2
+    state: "{{ states('sensor.so2_raw') }}"
+    state_class: measurement
+    attributes:
+      valore: "{{ states('sensor.so2_raw') }}"
+      limite: 350
+      IQA: "{{ states.sensor.so2_iqa.state }}"
+      Descrizione_IQA: "{{state_attr('sensor.so2_iqa', 'descrizione_livello_iqa') }}"
+      Info_complete: "{{ state_attr('sensor.so2_raw', 'full_data') }}"
+
+  - default_entity_id: sensor.no2
+    name: no2
+    state: "{{ states('sensor.no2_raw') }}"
+    state_class: measurement
+    attributes:
+      valore: "{{ states('sensor.no2_raw') }}"
+      limite: 200
+      IQA: "{{ states.sensor.no2_iqa.state }}"
+      Descrizione_IQA: "{{state_attr('sensor.no2_iqa', 'descrizione_livello_iqa') }}"
+      Info_complete: "{{ state_attr('sensor.no2_raw', 'full_data') }}"
+     
+  - default_entity_id: sensor.c6h6
+    name: c6h6
+    state: "{{ states('sensor.c6h6_raw') }}"
+    state_class: measurement
+    attributes:
+      valore: "{{ states('sensor.c6h6_raw') }}"
+      limite: 5
+      IQA: "{{ states.sensor.c6h6_iqa.state }}"
+      Descrizione_IQA: "{{state_attr('sensor.c6h6_iqa', 'descrizione_livello_iqa') }}"
+      Info_complete: "{{ state_attr('sensor.c6h6_raw', 'full_data') }}"
+
+  - default_entity_id: sensor.o3
+    name: o3
+    state: "{{ states('sensor.o3_raw') }}"
+    state_class: measurement
+    attributes:
+      valore: "{{ states('sensor.o3_raw') }}"
+      limite: 180
+      IQA: "{{ states.sensor.o3_iqa.state }}"
+      Descrizione_IQA: "{{state_attr('sensor.o3_iqa', 'descrizione_livello_iqa') }}"
+      Info_complete: "{{ state_attr('sensor.o3_raw', 'full_data') }}"
+
 
 ####################################################
 #                                                  #

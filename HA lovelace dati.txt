@@ -2,20 +2,29 @@ type: custom:flex-table-card
 title: Dati in quasi tempo reale
 entities:
   include:
-    - sensor.pm10_ispra
-    - sensor.pm25_ispra
-    - sensor.no2_ispra
-    - sensor.co_ispra
-    - sensor.o3_ispra
-    - sensor.c6h6_ispra
+    - sensor.pm10
+    - sensor.pm25
+    - sensor.no2
+    - sensor.co
+    - sensor.o3
+    - sensor.so2
+    - sensor.c6h6
   sort_by: name
 columns:
   - name: Inquin.
-    data: full_data.pollutant_notation
+    data: Info_complete.pollutant_notation
   - name: Val.
     data: state
   - name: Unità misura
-    data: full_data.observation_unit_notation
+    data: Info_complete.observation_unit_notation
+  - name: Valore di Indice
+    data: Info_complete.pollutant_level
+  - name: Limite
+    data: limite
+  - name: IQA
+    data: IQA
+  - name: Descrizione IQA
+    data: Descrizione_IQA
 grid_options:
-  columns: 10
+  columns: 15
   rows: 6
