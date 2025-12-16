@@ -1,14 +1,80 @@
-type: tile
-entity: sensor.aqi
-features_position: bottom
-vertical: false
-name: Qualità dell'Aria
-icon: mdi:air-filter
-color: primary
-tap_action:
-  action: none
-icon_tap_action:
-  action: none
-grid_options:
-  columns: 10
-  rows: 1
+type: custom:vertical-stack-in-card
+cards:
+  - type: custom:modern-circular-gauge
+    entity: sensor.iqa
+    unit: null
+    name: IQA
+    icon: mdi:liquid-spot
+    gauge_foreground_style:
+      color: adaptive
+      width: 10
+      opacity: 1
+    gauge_background_style:
+      color: adaptive
+      width: 10
+    min: 0
+    smooth_segments: true
+    adaptive_icon_color: true
+    segments:
+      - from: 0
+        color: green
+      - from: 51
+        color: yellow
+      - from: 151
+        color: orange
+      - from: 201
+        color: red
+      - from: 301
+        color: purple
+    tertiary: {}
+    start_from_zero: false
+    adaptive_state_color: true
+    show_seconds: true
+    secondary: {}
+    attribute: iqa_peggiore
+    max: 300
+    needle: false
+    show_state: true
+    adaptive_label_color: true
+    inverted_mode: false
+    show_in_graph: true
+    show_unit: true
+    adaptive_graph_range: false
+    header_position: bottom
+    show_header: true
+    show_icon: true
+    show_entity_picture: false
+    gauge_type: standard
+    grid_options:
+      columns: 15
+      rows: 4
+  - type: horizontal-stack
+    cards:
+      - type: tile
+        grid_options:
+          columns: 6
+          rows: 1
+        entity: sensor.iqa
+        name: Indice Qualità Aria
+        icon: mdi:air-filter
+        color: primary
+        vertical: false
+        tap_action:
+          action: none
+        icon_tap_action:
+          action: none
+        features_position: bottom
+      - type: tile
+        grid_options:
+          columns: 6
+          rows: 1
+        entity: sensor.aqi_ispra
+        name: Qualità dell'Aria
+        icon: mdi:air-filter
+        color: primary
+        vertical: false
+        tap_action:
+          action: none
+        icon_tap_action:
+          action: none
+        features_position: bottom
