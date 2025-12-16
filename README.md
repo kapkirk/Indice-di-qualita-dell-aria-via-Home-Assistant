@@ -533,13 +533,13 @@ cards:
 
 Inoltre sarà possiible definire altri gauge per ogni singolo sensore, oppure, raggrupparli secondo analogie come ho fatto io:
 <p align="center">
-  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/modern_circular_gauge_singoli.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/modern_circular_gauge_singoli.jpg">
 </p>
 
 Il risultato finale, in una visulizzazione su telefono, sarà il saeguente:
 
 <p align="center">
-  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/blob/main/images/lovelace_tel.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/lovelace_tel.jpg">
 </p>
 
 Ovviamente, avendo a disposizione tutti i dati che costituiscono il sensore, potrete utilizzarli per esporre ciò che più vi piace ricordate solo che gli attributi sono tutti all'intero dei _**full_data.**_, quindi andranno richiamati ed utilizzati così come vedete nel codice della scheda di visualizzazione.
