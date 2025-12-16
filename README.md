@@ -167,7 +167,8 @@ mi cosente di ricevere un alert, sulla stessa maschera, quando uno degli inquina
       ```
 
 - HACS installato e configurato con i seguenti pacchetti installati:
-  - la custom  `flex-table-card` (Se volete utilizzare la tabella di visualizzazione come ho fatto io).
+  - la custom  `flex-table-card` (Se volete utilizzare la tabella di visualizzazione come ho fatto io);
+  - la custom `Modern Circular Gauge` (Se volete utilizzare i gauge per la visualizzazione come ho fatto io);
 
 
 
