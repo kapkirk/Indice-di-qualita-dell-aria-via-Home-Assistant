@@ -408,7 +408,7 @@ I sensori sono stati creati e possiamo dunque configurare la scheda Lovelace per
 - Nella _Dashbord_ della _lovelace_, dove preferite, aprite una nuova scheda ed incollate il codice del file `HA lovelace dati.txt` ed il risultato sarà questo:
 
 <p align="center">
-  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/HA_lovelace_dati.jpg">
+  <img align="center" alt="logo" src="https://raw.githubusercontent.com/kapkirk/Indice-di-qualita-dell-aria-via-Home-Assistant/main/.github/images/Tabella.jpg">
 </p>
 
 codice:
