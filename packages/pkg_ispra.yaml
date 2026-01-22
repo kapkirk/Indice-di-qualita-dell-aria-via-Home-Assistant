@@ -180,7 +180,7 @@ template:
     
         {% if valori_numerici %}
           {% set valore_peggiore = valori_numerici|max %}
-          {% if valore_peggiore < 30 %}
+          {% if valore_peggiore < 31 %}
             Ottimo
           {% elif 31 <= valore_peggiore <= 66 %}
             Buono
@@ -279,7 +279,7 @@ template:
         descrizione_livello_iqa: >
             {% set v = (((states('sensor.co_ispra') | float) /
                         (state_attr('sensor.co_ispra', 'limite') | float)) * 100) | round(0) %}
-            {% if v < 30 %}
+            {% if v < 31 %}
               Ottimo
             {% elif 31 <= v <= 66 %}
               Buono
@@ -301,7 +301,7 @@ template:
         descrizione_livello_iqa: >
             {% set v = (((states('sensor.pm10_ispra') | float) /
                         (state_attr('sensor.pm10_ispra', 'limite') | float)) * 100) | round(0) %}
-            {% if v < 30 %}
+            {% if v < 31 %}
               Ottimo
             {% elif 31 <= v <= 66 %}
               Buono
@@ -323,7 +323,7 @@ template:
         descrizione_livello_iqa: >
             {% set v = (((states('sensor.pm25_ispra') | float) /
                         (state_attr('sensor.pm25_ispra', 'limite') | float)) * 100) | round(0) %}
-            {% if v < 30 %}
+            {% if v < 31 %}
               Ottimo
             {% elif 31 <= v <= 66 %}
               Buono
@@ -345,7 +345,7 @@ template:
         descrizione_livello_iqa: >
             {% set v = (((states('sensor.so2_ispra') | float) /
                         (state_attr('sensor.so2_ispra', 'limite') | float)) * 100) | round(0) %}
-            {% if v < 30 %}
+            {% if v < 31 %}
               Ottimo
             {% elif 31 <= v <= 66 %}
               Buono
@@ -367,7 +367,7 @@ template:
         descrizione_livello_iqa: >
             {% set v = (((states('sensor.no2_ispra') | float) /
                         (state_attr('sensor.no2_ispra', 'limite') | float)) * 100) | round(0) %}
-            {% if v < 30 %}
+            {% if v < 31 %}
               Ottimo
             {% elif 31 <= v <= 66 %}
               Buono
@@ -389,7 +389,7 @@ template:
         descrizione_livello_iqa: >
             {% set v = (((states('sensor.c6h6_ispra') | float) /
                         (state_attr('sensor.c6h6_ispra', 'limite') | float)) * 100) | round(0) %}
-            {% if v < 30 %}
+            {% if v < 31 %}
               Ottimo
             {% elif 31 <= v <= 66 %}
               Buono
@@ -411,7 +411,7 @@ template:
         descrizione_livello_iqa: >
             {% set v = (((states('sensor.o3_ispra') | float) /
                         (state_attr('sensor.o3_ispra', 'limite') | float)) * 100) | round(0) %}
-            {% if v < 30 %}
+            {% if v < 31 %}
               Ottimo
             {% elif 31 <= v <= 66 %}
               Buono
